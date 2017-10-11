@@ -5,7 +5,6 @@ class AnswersController < ApplicationController
     if @answer.save
       redirect_to @question
     else
-#      binding.pry
       render 'questions/show'
     end
   end
@@ -19,4 +18,5 @@ class AnswersController < ApplicationController
   def find_question
     @question = Question.find(params[:question_id])
   end
+
 end

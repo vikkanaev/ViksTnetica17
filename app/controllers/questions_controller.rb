@@ -20,10 +20,7 @@ class QuestionsController < ApplicationController
     if @question.save
       redirect_to @question
     else
-       render :new
-      #render 'questions/show'
-
-      #redirect_to @question
+      render :new
     end
   end
 
