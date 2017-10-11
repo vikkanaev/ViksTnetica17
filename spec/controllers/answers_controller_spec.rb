@@ -26,4 +26,9 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
   end
+
+  describe 'POST #show' do
+    it 'assigns the requested answer to @answer' do
+    it 'renders show view'
+  end
 end

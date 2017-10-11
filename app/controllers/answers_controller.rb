@@ -5,7 +5,8 @@ class AnswersController < ApplicationController
     if @answer.save
       redirect_to @question
     else
-      render :new
+#      binding.pry
+      render 'questions/show'
     end
   end
 

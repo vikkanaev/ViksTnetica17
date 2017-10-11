@@ -12,4 +12,12 @@ feature 'View the list of questions', %q{
 
     expect(page).to have_content 'Long long story2'
   end
+
+  scenario 'User can view question and answers' do
+    @question = create(:question)
+    @question.answers.create(title: 'Answer1', body: 'MyAnswerText')
+    visit question_path(@question)
+
+    expect(page).to have_content 'MyAnswerText'
+  end
 end
