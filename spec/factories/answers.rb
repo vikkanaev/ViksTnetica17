@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :answer do
-    title "MyString"
-    body "MyText"
+    title "MyAnswer"
+    body "MyText to answers of..."
   end
 
   factory :invalid_answer, class: 'Answer' do

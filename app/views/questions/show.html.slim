@@ -1,2 +1,16 @@
 h1 #{@question.title}
 p #{@question.body}
+br
+- for answer in @question.answers
+          br
+            h3 #{answer.title}
+            p #{answer.body}
+h3 Pls make an answer:
+- if @answer && @answer.errors.any?
+  p All fields are required in Answer!
+= form_for [@question, Answer.new] do |f|
+  = f.label :title
+  = f.text_field :title
+  = f.label :body
+  = f.text_area :body
+  = f.submit 'Create Answer'
