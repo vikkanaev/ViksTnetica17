@@ -28,6 +28,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #new' do
+    log_in_user
     before { get :new }
 
     it 'assigns a new question to @question' do
@@ -40,6 +41,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #edit' do
+    log_in_user
     before { get :edit, params: { id: question } }
 
     it 'assigns the requested question to @question' do
@@ -52,6 +54,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'POST #create' do
+    log_in_user
     context 'with valid attributes' do
       it 'saves the new question in the database' do
         expect { post :create, params: { question: attributes_for(:question) } }.to change(Question, :count).by(1)

@@ -5,16 +5,22 @@ feature 'Create question', %q{
   As an User
   I want to be able to create question
 } do
-  scenario 'Question created if all fields is valid' do
+  given(:user) { create(:user) }
+  given(:question) { create(:question) }
+
+  scenario 'Authenticated user create valid question' do
+    sign_in(user)
     visit new_question_path
-    fill_in 'Title', with: 'Test title'
-    fill_in 'Body', with: 'Long long story!'
+    fill_in 'Title', with: question.title
+    fill_in 'Body', with: question.body
     click_on 'Create'
 
-    expect(page).to have_content 'Long long story'
+    expect(page).to have_content 'Your question successfully created.'
   end
 
   scenario 'Question not created if not all fields is valid' do
+    sign_in(user)
+
     visit new_question_path
     click_on 'Create'
 
