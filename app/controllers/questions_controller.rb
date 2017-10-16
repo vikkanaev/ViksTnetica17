@@ -1,5 +1,5 @@
 class QuestionsController < ApplicationController
-  before_action :load_question, only: [:show, :edit]
+  before_action :load_question, only: [:show, :edit, :destroy]
   before_action :authenticate_user!, except: [:index, :show]
 
   def index
@@ -7,6 +7,7 @@ class QuestionsController < ApplicationController
   end
 
   def show
+    # binding.pry
   end
 
   def new
@@ -24,6 +25,12 @@ class QuestionsController < ApplicationController
     else
       render :new
     end
+  end
+
+  def destroy
+    @question.destroy
+    flash[:notice] = 'Your question successfully deleted.'
+    redirect_to @question
   end
 
   private
