@@ -7,7 +7,6 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    # binding.pry
   end
 
   def new
@@ -28,9 +27,13 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    @question.destroy
-    flash[:notice] = 'Your question successfully deleted.'
-    redirect_to @question
+    if @question.user_id == current_user.id && @question.destroy
+      flash[:notice] = 'Your question successfully deleted.'
+      redirect_to questions_path
+    else
+      flash[:notice] = 'You can not delete this question'
+      redirect_to @question
+    end
   end
 
   private

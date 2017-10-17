@@ -1,5 +1,6 @@
 h1 #{@question.title}
 p #{@question.body}
+= link_to 'Delete Question', question_path(@question), method: :delete
 br
 - @question.answers.each do |answer|
   - if answer.persisted?

@@ -39,17 +39,23 @@ feature 'Delete answer from the question page', %q{
   As an User
   I want to be able to delete my answer from the question page
 } do
-  given!(:user) { create(:user) }
-  given!(:question) { create(:question) }
-  given!(:answer) { create(:answer, question: question) }
+  given!(:user_author) { create(:user) }
+  given!(:user_not_author) { create(:user) }
+  given!(:question) { create(:question, user: user_author) }
+  given!(:answer) { create(:answer, question: question, user: user_author) }
 
   scenario 'User can delete his answers' do
-    sign_in(user)
+    sign_in(user_author)
     visit question_path(question)
     click_on 'Delete Answer'
-    #find_link('Delete Answer').click
 
-    expect(page).to have_content 'Your answer successfully deleted.'
+    expect(page).to have_content 'Your answer successfully deleted'
   end
-  scenario 'User can not delete other users answers'
+  scenario 'User can not delete other users answers' do
+    sign_in(user_not_author)
+    visit question_path(question)
+    click_on 'Delete Answer'
+
+    expect(page).to have_content 'You can not delete this answer'
+  end
 end

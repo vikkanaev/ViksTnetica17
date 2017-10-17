@@ -64,6 +64,23 @@ feature 'Delete question from the question page', %q{
   As an User
   I want to be able to delete my question from the question page
 } do
-  scenario 'User can delete his question'
-  scenario 'User can not delete other users questions'
+  given!(:user_author) { create(:user) }
+  given!(:user_not_author) { create(:user) }
+  given!(:question) { create(:question, user: user_author) }
+  given!(:answer) { create(:answer, question: question, user: user_author) }
+
+  scenario 'User can delete his question' do
+    sign_in(user_author)
+    visit question_path(question)
+    click_on 'Delete Question'
+
+    expect(page).to have_content 'Your question successfully deleted'
+  end
+  scenario 'User can not delete other users questions' do
+    sign_in(user_not_author)
+    visit question_path(question)
+    click_on 'Delete Question'
+
+    expect(page).to have_content 'You can not delete this question'
+  end
 end
