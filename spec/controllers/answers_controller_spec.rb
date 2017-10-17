@@ -30,20 +30,66 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    log_in_user
+    let!(:user_author) { create(:user) }
+    let!(:user_not_author) { create(:user) }
+    let!(:question) { create(:question, user: user_author) }
+    let!(:author_answer) { create(:answer, user: user_author) }
+    before { question }
 
-    it 'delete the answer in the database' do
-      post :create, params: valid_params
-      answer_id = Answer.last.id
-      expect { delete :destroy, params: { id: answer_id } }.to change(Answer, :count).by(-1)
+    context 'LogedIn user' do
+      context 'As author' do
+        before { sign_in(user_author) }
+
+        it 'delete the question in the database' do
+          expect { delete :destroy, params: { id: author_answer } }.to change(Answer, :count).by(-1)
+        end
+
+        it 'redirect to index view' do
+          delete :destroy, params: { id: author_answer }
+          expect(response).to redirect_to question_path(author_answer.question)
+        end
+      end
+      context 'An non-author' do
+        before { sign_in(user_not_author) }
+
+        it 'NOT delete the question in the database' do
+          expect { delete :destroy, params: { id: author_answer } }.to change(Answer, :count).by(0)
+        end
+        it 'redirect to this question show' do
+          delete :destroy, params: { id: author_answer }
+          expect(response).to redirect_to question_path(author_answer.question)
+        end
+      end
+
+    end
+    context 'NotLogedIn user' do
+      it 'NOT delete the question in the database' do
+        expect { delete :destroy, params: { id: author_answer } }.to change(Answer, :count).by(0)
+      end
+      it 'redirect to sign_in page' do
+        delete :destroy, params: { id: author_answer }
+        expect(response).to redirect_to new_user_session_path
+      end
     end
 
-    it 'redirect to index view' do
-      post :create, params: valid_params
-      answer_id = Answer.last.id
-      delete :destroy, params: { id: answer_id }
-      expect(response).to redirect_to question_path(question)
-    end
+
+
+
+
+#    log_in_user
+#
+#    it 'delete the answer in the database' do
+#      post :create, params: valid_params
+#      answer_id = Answer.last.id
+#      expect { delete :destroy, params: { id: answer_id } }.to change(Answer, :count).by(-1)
+#    end
+#
+#    it 'redirect to index view' do
+#      post :create, params: valid_params
+#      answer_id = Answer.last.id
+#      delete :destroy, params: { id: answer_id }
+#      expect(response).to redirect_to question_path(question)
+#    end
 
   end
 end

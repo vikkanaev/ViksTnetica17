@@ -78,17 +78,44 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    log_in_user
-    before { question }
+    context 'LogedIn user' do
+      let!(:user_author) { create(:user) }
+      let!(:user_not_author) { create(:user) }
+      let!(:question) { create(:question, user: user_author) }
+      let!(:non_author_question) { create(:question, user: user_not_author) }
 
-    it 'delete the question in the database' do
-      expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
+      before { question }
+
+      context 'As author' do
+        before { sign_in(user_author) }
+        it 'delete the question in the database' do
+          expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
+        end
+        it 'redirect to index view' do
+          delete :destroy, params: { id: question }
+          expect(response).to redirect_to questions_path
+        end
+      end
+      context 'An non-author' do
+        before { sign_in(user_not_author) }
+        it 'NOT delete the question in the database' do
+          expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(0)
+        end
+        it 'redirect to this question show' do
+          delete :destroy, params: { id: question }
+          expect(response).to redirect_to question_path(assigns(:question))
+        end
+      end
     end
-
-    it 'redirect to index view' do
-      delete :destroy, params: { id: question }
-      expect(response).to redirect_to questions_path
+    context 'NotLogedIn user' do
+      before { get :edit, params: { id: question } }
+      it 'NOT delete the question in the database' do
+        expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(0)
+      end
+      it 'redirect to sign_in page' do
+        delete :destroy, params: { id: question }
+        expect(response).to redirect_to new_user_session_path
+      end
     end
-
   end
 end
