@@ -11,7 +11,6 @@ feature 'Create answer from the question page', %q{
   scenario 'Authenticated user create answer if all fields is valid' do
     sign_in(user)
     visit question_path(question)
-    fill_in 'Title', with: question.title
     fill_in 'Body', with: question.body
 
     click_on 'Create Answer'
@@ -29,7 +28,7 @@ feature 'Create answer from the question page', %q{
     visit question_path(question)
     click_on 'Create Answer'
 
-    expect(page).to have_content 'All fields are required in Answer!'
+    expect(page).to have_content "Body can't be blank"
   end
 end
 
@@ -54,8 +53,7 @@ feature 'Delete answer from the question page', %q{
   scenario 'User can not delete other users answers' do
     sign_in(user_not_author)
     visit question_path(question)
-    click_on 'Delete Answer'
 
-    expect(page).to have_content 'You can not delete this answer'
+    expect(page).to_not have_content 'Delete Answer'
   end
 end

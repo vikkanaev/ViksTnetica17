@@ -1,23 +1,25 @@
 h1 #{@question.title}
 p #{@question.body}
-= link_to 'Delete Question', question_path(@question), method: :delete
+- if user_signed_in?
+  = link_to 'Delete Question', question_path(@question), method: :delete if current_user.author_of?(@question)
 br
 - @question.answers.each do |answer|
   - if answer.persisted?
     br
-    h3 #{answer.title}
     p #{answer.body}
-    = link_to 'Delete Answer', answer_path(answer), method: :delete
+    - if user_signed_in?
+     = link_to 'Delete Answer', answer_path(answer), method: :delete if current_user.author_of?(answer)
 
 h3 Pls make an answer:
 - if @answer && @answer.errors.any?
-  p All fields are required in Answer!
+  = @answer.errors.full_messages.each do |msg|
+    li #{msg}
 - if user_signed_in?
   = form_for [@question, Answer.new] do |f|
-    = f.label :title
-    = f.text_field :title
     = f.label :body
     = f.text_area :body
     = f.submit 'Create Answer'
 - else
   p You need to sign in or sign up before commenting
+br
+= link_to "Back to All questions", questions_path
