@@ -71,25 +71,5 @@ RSpec.describe AnswersController, type: :controller do
         expect(response).to redirect_to new_user_session_path
       end
     end
-
-
-
-
-
-#    log_in_user
-#
-#    it 'delete the answer in the database' do
-#      post :create, params: valid_params
-#      answer_id = Answer.last.id
-#      expect { delete :destroy, params: { id: answer_id } }.to change(Answer, :count).by(-1)
-#    end
-#
-#    it 'redirect to index view' do
-#      post :create, params: valid_params
-#      answer_id = Answer.last.id
-#      delete :destroy, params: { id: answer_id }
-#      expect(response).to redirect_to question_path(question)
-#    end
-
   end
 end

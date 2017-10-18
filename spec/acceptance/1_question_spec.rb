@@ -24,13 +24,22 @@ feature 'Create question', %q{
     expect(page).to have_content 'You need to sign in or sign up before continuing'
   end
 
-  scenario 'Question not created if not all fields is valid' do
+  scenario 'Question not created without Title' do
     sign_in(user)
-
     visit new_question_path
+    fill_in 'Body', with: question.body
     click_on 'Create'
 
-    expect(page).to have_content 'All fields are required!'
+    expect(page).to have_content "Title can't be blank"
+  end
+
+  scenario 'Question not created without Body' do
+    sign_in(user)
+    visit new_question_path
+    fill_in 'Title', with: question.title
+    click_on 'Create'
+
+    expect(page).to have_content "Body can't be blank"
   end
 end
 
@@ -46,12 +55,12 @@ feature 'View the list of questions', %q{
     Question.create(title: 'Title2', body: 'Long long story2')
     visit questions_path
 
-    expect(page).to have_content 'Long long story2'
+    expect(page).to have_content 'Title1Title2'
   end
 
   scenario 'User can view question and answers' do
     @question = create(:question)
-    @question.answers.create(title: 'Answer1', body: 'MyAnswerText')
+    @question.answers.create(body: 'MyAnswerText')
     visit question_path(@question)
 
     expect(page).to have_content 'MyAnswerText'
@@ -79,8 +88,7 @@ feature 'Delete question from the question page', %q{
   scenario 'User can not delete other users questions' do
     sign_in(user_not_author)
     visit question_path(question)
-    click_on 'Delete Question'
 
-    expect(page).to have_content 'You can not delete this question'
+    expect(page).to_not have_content 'Delete Question'
   end
 end

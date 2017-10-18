@@ -5,4 +5,5 @@
   = f.text_area :body
   = f.submit 'Create'
 - if @question.errors.any?
-  p All fields are required!
+  = @question.errors.full_messages.each do |msg|
+    li #{msg}
