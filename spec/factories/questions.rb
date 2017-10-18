@@ -1,13 +1,14 @@
 FactoryGirl.define do
-  factory :question do
-    title 'MyQuestionTitle'
-    body 'WAT?!'
-    user
+  sequence :title do |n|
+    "Title #{n}"
+  end
+  sequence :body do |n|
+    "Message #{n}"
   end
 
-  factory :question2 do
-    title 'MyQuestionTitle'
-    body 'WAT?!'
+  factory :question do
+    title
+    body
     user
   end
 
