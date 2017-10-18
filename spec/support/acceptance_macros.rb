@@ -5,4 +5,11 @@ module AcceptanceMacros
     fill_in 'Password', with: user.password
     click_on 'Log in'
   end
+
+  def create_question
+    visit new_question_path
+    fill_in 'Title', with: question.title
+    fill_in 'Body', with: question.body
+    click_on 'Create'
+  end
 end

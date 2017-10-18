@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
   let(:question) { create(:question) }
+
   describe 'GET #index' do
     let(:questions) { create_list(:question, 2) }
     before { get :index }
@@ -96,6 +97,7 @@ RSpec.describe QuestionsController, type: :controller do
           expect(response).to redirect_to questions_path
         end
       end
+
       context 'An non-author' do
         before { sign_in(user_not_author) }
         it 'NOT delete the question in the database' do
@@ -107,6 +109,7 @@ RSpec.describe QuestionsController, type: :controller do
         end
       end
     end
+    
     context 'NotLogedIn user' do
       before { get :edit, params: { id: question } }
       it 'NOT delete the question in the database' do

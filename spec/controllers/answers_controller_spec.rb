@@ -4,6 +4,7 @@ RSpec.describe AnswersController, type: :controller do
   let(:question) { create(:question) }
   let(:valid_params) { { answer: attributes_for(:answer), question_id: question } }
   let(:invalid_params) { { answer: attributes_for(:invalid_answer), question_id: question } }
+
   describe 'POST #create' do
     context 'with valid attributes' do
       log_in_user
@@ -60,8 +61,8 @@ RSpec.describe AnswersController, type: :controller do
           expect(response).to redirect_to question_path(author_answer.question)
         end
       end
-
     end
+
     context 'NotLogedIn user' do
       it 'NOT delete the question in the database' do
         expect { delete :destroy, params: { id: author_answer } }.to change(Answer, :count).by(0)
