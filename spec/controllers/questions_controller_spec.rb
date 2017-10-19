@@ -56,23 +56,34 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'POST #create' do
     log_in_user
+
     context 'with valid attributes' do
+      let(:create_question) { post :create, params: { question: attributes_for(:question) } }
+
       it 'saves the new question in the database' do
-        expect { post :create, params: { question: attributes_for(:question) } }.to change(Question, :count).by(1)
+        expect { create_question }.to change(Question, :count).by(1)
       end
+
       it 'redirects to show view' do
-        post :create, params: { question: attributes_for(:question) }
+        create_question
         expect(response).to redirect_to question_path(assigns(:question))
+      end
+
+      it 'question belongs to user' do
+        create_question
+        expect(assigns(:question).user_id).to eq @user.id
       end
     end
 
     context 'with invalid attributes' do
+      let(:create_invalid_question) { post :create, params: { question: attributes_for(:invalid_question) } }
+
       it 'does not save the question' do
-        expect { post :create, params: { question: attributes_for(:invalid_question) } }.to_not change(Question, :count)
+        expect { create_invalid_question  }.to_not change(Question, :count)
       end
 
       it 're-renders new view' do
-        post :create, params: { question: attributes_for(:invalid_question) }
+        create_invalid_question
         expect(response).to render_template :new
       end
     end
@@ -92,6 +103,7 @@ RSpec.describe QuestionsController, type: :controller do
         it 'delete the question in the database' do
           expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
         end
+
         it 'redirect to index view' do
           delete :destroy, params: { id: question }
           expect(response).to redirect_to questions_path
@@ -101,20 +113,22 @@ RSpec.describe QuestionsController, type: :controller do
       context 'An non-author' do
         before { sign_in(user_not_author) }
         it 'NOT delete the question in the database' do
-          expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(0)
+          expect { delete :destroy, params: { id: question } }.to_not change(Question, :count)
         end
+
         it 'redirect to this question show' do
           delete :destroy, params: { id: question }
           expect(response).to redirect_to question_path(assigns(:question))
         end
       end
     end
-    
+
     context 'NotLogedIn user' do
       before { get :edit, params: { id: question } }
       it 'NOT delete the question in the database' do
-        expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(0)
+        expect { delete :destroy, params: { id: question } }.to_not change(Question, :count)
       end
+
       it 'redirect to sign_in page' do
         delete :destroy, params: { id: question }
         expect(response).to redirect_to new_user_session_path
