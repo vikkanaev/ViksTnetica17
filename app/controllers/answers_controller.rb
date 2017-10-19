@@ -4,6 +4,7 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!
 
   def create
+    # А как, блин тут быть?
     @answer = @question.answers.new(answer_params)
     @answer.user = current_user
     if @answer.save
