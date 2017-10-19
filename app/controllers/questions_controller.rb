@@ -17,9 +17,7 @@ class QuestionsController < ApplicationController
   end
 
   def create
-    @question = Question.new(question_params)
-    # Почему @question.user = current_user не кастыль? А если кастыль, то как правильно?
-    @question.user = current_user
+    @question = current_user.questions.build(question_params)
     if @question.save
       flash[:notice] = 'Your question successfully created.'
       redirect_to @question
