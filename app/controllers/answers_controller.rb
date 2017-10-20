@@ -4,7 +4,6 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!
 
   def create
-    # А как, блин тут быть?
     @answer = @question.answers.new(answer_params)
     @answer.user = current_user
     if @answer.save
@@ -16,13 +15,12 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    @question = Question.find(@answer.question_id)
     if current_user.author_of?(@answer) && @answer.destroy
       flash[:notice] = 'Your answer successfully deleted.'
     else
       flash[:notice] = 'You can not delete this answer.'
     end
-    redirect_to @question
+    redirect_to @answer.question
   end
 
   private
