@@ -24,17 +24,7 @@ feature 'Create question', %q{
     expect(page).to have_content 'You need to sign in or sign up before continuing'
   end
 
-  scenario 'Question not created without Title' do
-    sign_in(user)
-    visit questions_path
-    click_on 'Create new question'
-    fill_in 'Body', with: question.body
-    click_on 'Create'
-
-    expect(page).to have_content "Title can't be blank"
-  end
-
-  scenario 'Question not created without Body' do
+  scenario 'Question not created with invalid data' do
     sign_in(user)
     visit questions_path
     click_on 'Create new question'
