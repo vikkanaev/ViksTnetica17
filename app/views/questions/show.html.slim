@@ -3,19 +3,20 @@ p #{@question.body}
 - if user_signed_in? && current_user.author_of?(@question)
   = link_to 'Delete Question', @question, method: :delete
 br
-- @question.answers.each do |answer|
-  - if answer.persisted?
-    br
-    p #{answer.body}
-    - if user_signed_in? && current_user.author_of?(answer)
-     = link_to 'Delete Answer', answer, method: :delete
+.answers
+  - @question.answers.each do |answer|
+    - if answer.persisted?
+      br
+      p #{answer.body}
+      - if user_signed_in? && current_user.author_of?(answer)
+       = link_to 'Delete Answer', answer, method: :delete
 
 h3 Pls make an answer:
 - if @answer && @answer.errors.any?
   = @answer.errors.full_messages.each do |msg|
     li #{msg}
 - if user_signed_in?
-  = form_for [@question, @answer] do |f|
+  = form_for [@question, @answer], remote: :true do |f|
     = f.label :body
     = f.text_area :body
     = f.submit 'Create Answer'

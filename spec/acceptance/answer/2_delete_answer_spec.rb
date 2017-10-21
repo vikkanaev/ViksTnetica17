@@ -28,7 +28,7 @@ feature 'Delete answer from the question page', %q{
 
   scenario 'Guset user can not delete other users answers' do
     visit question_path(question)
-    
+
     expect(page).to_not have_content 'Delete Answer'
   end
 end
