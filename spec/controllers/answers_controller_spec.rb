@@ -10,16 +10,16 @@ RSpec.describe AnswersController, type: :controller do
       log_in_user
 
       it 'saves the new answer in the database' do
-        expect { post :create, params: valid_params }.to change(question.answers, :count).by(1)
+        expect { post :create, params: valid_params, format: :js }.to change(question.answers, :count).by(1)
       end
 
-      it 'renders parent question' do
-        post :create, params: valid_params
-        expect(response).to redirect_to question_path(assigns(:question))
+      it 'renders create template' do
+        post :create, params: valid_params, format: :js
+        expect(response).to render_template :create
       end
 
       it 'answer belongs to user' do
-        post :create, params: valid_params
+        post :create, params: valid_params, format: :js
         expect(assigns(:answer).user_id).to eq @user.id
       end
     end
@@ -28,12 +28,12 @@ RSpec.describe AnswersController, type: :controller do
       log_in_user
 
       it 'does not save the answer' do
-        expect { post :create, params: invalid_params }.to_not change(Answer, :count)
+        expect { post :create, params: invalid_params, format: :js }.to_not change(Answer, :count)
       end
 
-      it 're-renders new view' do
-        post :create, params: invalid_params
-        expect(response).to render_template 'questions/show'
+      it 're-renders template create' do
+        post :create, params: invalid_params, format: :js
+        expect(response).to render_template :create
       end
     end
   end

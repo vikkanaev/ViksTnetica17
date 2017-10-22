@@ -1,0 +1,10 @@
+- if @answer && @answer.errors.any?
+  = @answer.errors.full_messages.each do |msg|
+    li #{msg}
+    
+- @question.answers.each do |answer|
+  - if answer.persisted?
+    br
+    p #{answer.body}
+    - if user_signed_in? && current_user.author_of?(answer)
+     = link_to 'Delete Answer', answer, method: :delete

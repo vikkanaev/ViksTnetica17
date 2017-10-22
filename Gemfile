@@ -15,7 +15,6 @@ gem 'coffee-rails', '~> 4.2'
 gem 'slim-rails'
 gem 'jquery-rails'
 
-gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.5'
 gem 'devise'
 
@@ -26,6 +25,8 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'rails-controller-testing'
   gem 'pry-rails'
+  gem 'selenium-webdriver', '~> 3'
+  gem 'database_cleaner'
 end
 
 group :development do
