@@ -9,24 +9,23 @@ feature 'Create answer from the question page', %q{
   given!(:question) { create(:question) }
   given(:answer) { create(:answer, question: question, user: user) }
 
-  scenario 'Authenticated user create answer if all fields is valid' do
+  scenario 'Authenticated user create answer if all fields is valid', js: true do
     sign_in(user)
     visit question_path(question)
     fill_in 'Body', with: answer.body
 
     click_on 'Create Answer'
-
     expect(page).to have_content 'Your answer successfully created.'
     expect(page).to have_content answer.body
   end
 
-  scenario 'Guest user cant create answer.' do
+  scenario 'Guest user cant create answer.', js: true do
     visit question_path(question)
 
     expect(page).to_not have_content 'Create Answer'
   end
 
-  scenario 'Authenticated user cant create answer not all fields is valid' do
+  scenario 'Authenticated user cant create answer not all fields is valid', js: true do
     sign_in(user)
     visit question_path(question)
     click_on 'Create Answer'
