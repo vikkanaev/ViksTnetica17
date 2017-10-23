@@ -4,9 +4,7 @@ p #{@question.body}
   = link_to 'Delete Question', @question, method: :delete
 br
 .answers
- - @question.answers.each do |a|
-  - if a.persisted?
-    = render 'questions/answers', answer: a
+  = render @question.answers
 
 h3 Pls make an answer:
 

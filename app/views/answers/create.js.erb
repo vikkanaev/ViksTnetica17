@@ -1,3 +1,3 @@
-$('.answers').append('<%= j render 'questions/answers', answer: @answer %>');
+$('.answers').append('<%= j render @answer %>');
 $('#answer_body').val('');
 $("#notice").html("<%=j flash[:notice] %>");
