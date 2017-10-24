@@ -25,8 +25,8 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'rails-controller-testing'
   gem 'pry-rails'
-  gem 'selenium-webdriver', '~> 3'
   gem 'database_cleaner'
+  gem 'capybara-webkit'
 end
 
 group :development do
