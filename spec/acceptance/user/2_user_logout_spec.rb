@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative '../acceptance_helper'
 
 feature 'User logout', %q{
   In order to be able not ask questions anymore
@@ -17,7 +17,7 @@ feature 'User logout', %q{
       expect(page).to have_content 'Signed out successfully.'
       expect(current_path).to eq root_path
     end
-    
+
     scenario 'Not Signedin user try to login' do
       visit '/'
 
