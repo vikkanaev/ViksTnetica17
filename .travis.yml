@@ -1,0 +1,20 @@
+before_install:
+  - gem update --system
+  - gem --version
+  - postgres -V
+
+before_script:
+  - psql -c 'create database vikstnetica17_db;' -U postgres
+  - cp config/database.yml.travis config/database.yml
+  - bundle exec rake db:migrate RAILS_ENV=test
+
+language: ruby
+sudo: false
+rvm:
+  - 2.3.0
+
+services:
+  postgresql
+
+addons:
+  postgresql: "9.5"
