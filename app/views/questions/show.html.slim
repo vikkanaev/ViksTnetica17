@@ -12,7 +12,7 @@ h3 Pls make an answer:
   = form_for [@question, @answer], remote: :true do |f|
     = f.label :body
     = f.text_area :body
-    = f.submit 'Create Answer'
+    p= f.submit 'Create Answer'
 - else
   p You need to sign in or sign up before commenting
 br
