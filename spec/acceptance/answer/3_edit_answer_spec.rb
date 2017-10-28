@@ -28,15 +28,17 @@ feature 'Answer editing', %q{
       expect(page).to have_link 'Edit'
     end
 
-    # scenario 'try to edit answer' do
-    #   click_on 'Edit'
-    #   fill_in 'Answer', with: 'edited answer'
-    #   click_on 'Save'
+    scenario 'try to edit answer', js: true do
+      click_on 'Edit'
+      within '.answers' do
+        fill_in 'Answer', with: 'edited answer'
+      end
+      click_on 'Save'
 
-    #   expect(page).to_not have_content answer.body
-    #   expect(page).to have_content 'edited answer'
-    #   expect(page).to_not have_selector 'textarea'
-    # end
+      expect(page).to_not have_content answer.body
+      expect(page).to have_content 'edited answer'
+      expect(page).to_not have_selector 'textarea'
+    end
 
     scenario "try to edit other user's question"
   end
