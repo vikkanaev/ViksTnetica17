@@ -2,9 +2,10 @@ h1 #{@question.title}
 p #{@question.body}
 - if user_signed_in? && current_user.author_of?(@question)
   = link_to 'Delete Question', @question, method: :delete
+.answer-errors
 br
 .answers
-  = render @question.answers
+  = render 'answers'
 
 h3 Pls make an answer:
 
@@ -12,8 +13,9 @@ h3 Pls make an answer:
   = form_for [@question, @answer], remote: :true do |f|
     = f.label :body
     = f.text_area :body
-    p= f.submit 'Create Answer'
+    = f.submit 'Create Answer'
 - else
   p You need to sign in or sign up before commenting
 br
+
 = link_to "Back to All questions", questions_path

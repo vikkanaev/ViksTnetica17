@@ -1,14 +1,17 @@
 class AnswersController < ApplicationController
   before_action :find_question, only: [:create]
-  before_action :find_answer, only: [:destroy]
+  before_action :find_answer, only: [:destroy, :update]
   before_action :authenticate_user!
 
   def create
-    @answer = @question.answers.new(answer_params)
+    @answer = @question.answers.create(answer_params)
     @answer.user = current_user
     if @answer.save
       flash[:notice] = 'Your answer successfully created.'
     end
+  end
+
+  def update
   end
 
   def destroy

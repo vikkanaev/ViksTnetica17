@@ -1,8 +1,0 @@
-- if answer && answer.errors.any?
-  = answer.errors.full_messages.each do |msg|
-    = flash[:notice] = msg
-- else
-  div id='answer#{answer.id}'
-      p #{answer.body}
-      - if user_signed_in? && current_user.author_of?(answer)
-       = link_to 'Delete Answer', answer, method: :delete

@@ -1,0 +1,13 @@
+- @question.answers.each do |answer|
+ - if answer.persisted?
+  p binding.pry
+  div id='answer#{answer.id}'
+    p= answer.body
+    - if user_signed_in? && current_user.author_of?(answer)
+      p= link_to 'Delete Answer', answer_path(answer), method: :delete
+      p= link_to 'Edit'
+      p
+        = form_for answer, remote: true do |ff|
+          = ff.label :body, 'Answer'
+          = ff.text_area :body, id: "text_area_#{answer.id}"
+          = ff.submit 'Save'
