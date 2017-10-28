@@ -29,7 +29,7 @@ feature 'Create answer from the question page', %q{
     sign_in(user)
     visit question_path(question)
     click_on 'Create Answer'
-
+    save_and_open_page
     expect(page).to have_content "Body can't be blank"
     expect(page).to_not have_content answer.body
   end
