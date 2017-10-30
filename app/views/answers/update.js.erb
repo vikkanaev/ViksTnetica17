@@ -3,6 +3,11 @@
         $('.answer-errors').html('<%= j message %>');
     <% end %>
 <% else %>
-  $('.answers').html('<%= j render @answer %>');
-  $(".notice").html("<%= j 'Your answer was successfully updated.' %>");
+    $('.edit-answer-link').on('click', function(e) {
+        e.preventDefault();
+        $(this).hide();
+        answer_id = $(this).data('answerId');
+        $('form#edit-answer-' + answer_id).show();
+    });
+    $("#notice").html("<%=j flash[:notice] %>");
 <% end %>
