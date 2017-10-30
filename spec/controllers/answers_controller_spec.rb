@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
-  let(:question) { create(:question) }
+  let!(:question) { create(:question) }
   let(:valid_params) { { answer: attributes_for(:answer), question_id: question } }
   let(:invalid_params) { { answer: attributes_for(:invalid_answer), question_id: question } }
 
@@ -87,14 +87,17 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'PATCH #update' do
     let!(:user_author) { create(:user) }
-    let!(:user_not_author) { create(:user) }
-    let!(:question) { create(:question, user: user_author) }
-    let!(:answer) { create(:answer, user: user_author) }
+    let!(:answer) { create(:answer, question: question, user: user_author) }
     before { sign_in(user_author) }
 
     it 'assings the requested answer to @answer' do
       patch :update, params: { question_id: question, id: answer, answer: attributes_for(:answer) }, format: :js
       expect(assigns(:answer)).to eq answer
+    end
+
+    it 'assigns the question' do
+      patch :update, params: { question_id: question, id: answer, answer: attributes_for(:answer) }, format: :js
+      expect(assigns(:question)).to eq question
     end
 
     it 'changes answer attributes' do
