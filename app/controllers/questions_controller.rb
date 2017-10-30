@@ -7,15 +7,11 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    #@answer = Answer.new
     @answer = @question.answers.build
   end
 
   def new
     @question = Question.new
-  end
-
-  def update
   end
 
   def create

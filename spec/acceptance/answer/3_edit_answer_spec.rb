@@ -6,7 +6,7 @@ feature 'Answer editing', %q{
   I want to be able to edit my answer
 } do
   given!(:user_author) { create(:user) }
-  given!(:user_not_author) { create(:user) }
+  given(:user_not_author) { create(:user) }
   given!(:question) { create(:question, user: user_author) }
   given!(:answer) { create(:answer, question: question, user: user_author) }
 
@@ -29,15 +29,16 @@ feature 'Answer editing', %q{
     end
 
     scenario 'try to edit answer', js: true do
-      click_on 'Edit'
-      within '.answers' do
-        fill_in 'Answer', with: 'edited answer'
-      end
-      click_on 'Save'
+      visit question_path(question)
 
-      expect(page).to_not have_content answer.body
-      expect(page).to have_content 'edited answer'
-      expect(page).to_not have_selector 'textarea'
+      click_on 'Edit Answer'
+
+        fill_in 'Answer', with: 'edited answer'
+        click_on 'Save'
+        expect(page).to_not have_content answer.body
+        expect(page).to have_content 'edited answer'
+        expect(page).to_not have_selector 'textarea'
+      
     end
 
     scenario "try to edit other user's question"
