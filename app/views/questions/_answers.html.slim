@@ -1,4 +1,4 @@
-- @question.answers.each do |answer|
+- @question.answers.order(:created_at).each do |answer|
  - if answer.persisted?
     p= answer.body
     - if user_signed_in? && current_user.author_of?(answer)
