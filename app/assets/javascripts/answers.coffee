@@ -3,7 +3,7 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 editAnswer = ->
-  $('.answers').on 'click', '.edit-answer-link', (e) ->
+  $('.edit-answer-link').on 'click', (e) ->
     e.preventDefault();
     $(this).hide();
     answer_id = $(this).data('answerId');

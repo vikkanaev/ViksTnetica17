@@ -3,6 +3,7 @@
         $('.answer-errors').html('<%= j message %>');
     <% end %>
 <% else %>
+    $('.answers').html('<%= j render 'questions/answers' %>');
     $('.edit-answer-link').on('click', function(e) {
         e.preventDefault();
         $(this).hide();
