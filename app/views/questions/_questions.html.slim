@@ -1,0 +1,4 @@
+.questions-errors
+- if @questions
+  - @questions.order(:created_at).each do |question|
+    p= link_to question.title, question

@@ -1,4 +1,16 @@
-- @questions.each do |question|
-  p
-   = link_to question.title, question
-= link_to "Create new question", new_question_path
+.questions
+  = render 'questions'
+
+- if user_signed_in?
+  b Ask your question if you want:
+  = form_for @question, remote: true do |f|
+    p
+      = f.label :title
+      = f.text_field :title
+    p
+      = f.label :body
+      = f.text_area :body
+    p= f.submit 'Create'
+- if @question.errors.any?
+  = @question.errors.full_messages.each do |msg|
+    li #{msg}

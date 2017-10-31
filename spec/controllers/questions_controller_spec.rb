@@ -58,15 +58,15 @@ RSpec.describe QuestionsController, type: :controller do
     log_in_user
 
     context 'with valid attributes' do
-      let(:create_question) { post :create, params: { question: attributes_for(:question) } }
+      let(:create_question) { post :create, params: { question: attributes_for(:question) }, format: :js }
 
       it 'saves the new question in the database' do
         expect { create_question }.to change(Question, :count).by(1)
       end
 
-      it 'redirects to show view' do
+      it 'render index' do
         create_question
-        expect(response).to redirect_to question_path(assigns(:question))
+        expect(response).to render_template :create
       end
 
       it 'question belongs to user' do
@@ -76,7 +76,7 @@ RSpec.describe QuestionsController, type: :controller do
     end
 
     context 'with invalid attributes' do
-      let(:create_invalid_question) { post :create, params: { question: attributes_for(:invalid_question) } }
+      let(:create_invalid_question) { post :create, params: { question: attributes_for(:invalid_question) }, format: :js }
 
       it 'does not save the question' do
         expect { create_invalid_question  }.to_not change(Question, :count)
@@ -84,7 +84,7 @@ RSpec.describe QuestionsController, type: :controller do
 
       it 're-renders new view' do
         create_invalid_question
-        expect(response).to render_template :new
+        expect(response).to render_template :create
       end
     end
   end
