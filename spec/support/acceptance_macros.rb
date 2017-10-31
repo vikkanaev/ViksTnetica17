@@ -7,7 +7,7 @@ module AcceptanceMacros
   end
 
   def create_question
-    visit new_question_path
+    visit questions_path
     fill_in 'Title', with: question.title
     fill_in 'Body', with: question.body
     click_on 'Create'

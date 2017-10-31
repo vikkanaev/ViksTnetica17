@@ -5,13 +5,14 @@ feature 'View the list of questions', %q{
   As an User
   I want to be able to view the list of questions
 } do
-  given!(:user_author) { create(:user) }
-  given!(:questions) { create_list(:question, 6) }
+  let!(:user_author) { create(:user) }
+  let!(:questions) { create_list(:question, 6, user: user_author) }
   given!(:one_question) { create(:question) }
   let!(:answers) { create_list(:answer, 5, question: one_question, user: user_author) }
 
   scenario 'User view the list of questions' do
     visit questions_path
+    
     questions.each do |q|
       expect(page).to have_content q.title
     end
