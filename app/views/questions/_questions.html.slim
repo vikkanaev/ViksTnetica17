@@ -3,7 +3,7 @@
   - @questions.order(:created_at).each do |question|
     p= link_to question.title, question
     - if user_signed_in? && current_user.author_of?(question)
-      p= link_to 'Delete Question', question_path(question), method: :delete
+      p= link_to 'Delete Question', question_path(question), method: :delete, remote: true
       p= link_to 'Edit Question', '', class: 'edit-question-link', data: { question_id: question.id }
       = form_for question, remote: true, html: { id: "edit-question-#{question.id}" } do |ff|
           = ff.label :title
