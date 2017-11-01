@@ -2,3 +2,12 @@
 - if @questions
   - @questions.order(:created_at).each do |question|
     p= link_to question.title, question
+    - if user_signed_in? && current_user.author_of?(question)
+      p= link_to 'Delete Question', question_path(question), method: :delete
+      p= link_to 'Edit Question', '', class: 'edit-question-link', data: { question_id: question.id }
+      = form_for question, remote: true, html: { id: "edit-question-#{question.id}" } do |ff|
+          = ff.label :title
+          = ff.text_field :title
+          p= ff.label :body, "Question"
+          = ff.text_area :body
+          = ff.submit 'Save Question'

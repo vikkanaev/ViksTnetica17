@@ -1,7 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
-  let(:question) { create(:question) }
+  let!(:user_author) { create(:user) }
+  let(:question) { create(:question, user: user_author) }
 
   describe 'GET #index' do
     let(:questions) { create_list(:question, 2) }
@@ -132,6 +133,49 @@ RSpec.describe QuestionsController, type: :controller do
       it 'redirect to sign_in page' do
         delete :destroy, params: { id: question }
         expect(response).to redirect_to new_user_session_path
+      end
+    end
+  end
+
+  describe 'PATCH #update' do
+    log_in_user
+
+    let(:question) { create(:question, user: user_author) }
+    let(:update_valid_question) { patch :update, params: { id: question, user: user_author, question: { body: 'new body', title: 'new title' }, format: :js } }
+
+    before { update_valid_question }
+
+    context 'with valid attributes' do
+      it 'assings the requested question to @question' do
+        expect(assigns(:question)).to eq question
+      end
+
+      it 'assigns the questions' do
+        expect(assigns(:question)).to eq Question.last
+      end
+
+      it "changes question`s attributes" do
+        question.reload
+        expect(question.body).to eq 'new body'
+      end
+
+      it 'render update template' do
+        expect(response).to render_template :update
+      end
+    end
+
+    context 'with invalid attributes' do
+      let(:update_invalid_question) { patch :update, params: { id: question, user: user_author, question: attributes_for(:invalid_question), format: :js } }
+      before { update_invalid_question }
+
+      it "don't changes question`s attributes" do
+        question.reload
+        expect(question.title).to eq question.title
+        expect(question.body).to eq question.body
+      end
+
+      it 'render update template' do
+        expect(response).to render_template :update
       end
     end
   end
