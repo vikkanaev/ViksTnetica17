@@ -57,6 +57,8 @@ RSpec.describe AnswersController, type: :controller do
           delete :destroy, params: { id: author_answer }
           expect(response).to redirect_to question_path(author_answer.question)
         end
+
+        it 'Delete best_answer_id from parent question if answer is Best'
       end
 
       context 'An non-author' do

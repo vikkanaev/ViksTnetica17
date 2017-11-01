@@ -4,6 +4,7 @@
     - if user_signed_in? && current_user.author_of?(answer)
       p= link_to 'Delete Answer', answer_path(answer), method: :delete, remote: true
       p= link_to 'Edit Answer', '', class: 'edit-answer-link', data: { answer_id: answer.id }
+      p= link_to 'Chois as Best', '', class: 'best-answer-link', data: { answer_id: answer.id }
       = form_for answer, remote: true, html: { id: "edit-answer-#{answer.id}" } do |ff|
           = ff.label :body, "Answer"
           = ff.text_area :body
