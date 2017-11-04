@@ -1,0 +1,15 @@
+current directory: /Users/vik/RoR_Projects/ViksTnetica17/vendor/cache/ruby/2.3.0/gems/bindex-0.5.0/ext/bindex
+/Users/vik/.rvm/rubies/ruby-2.3.0/bin/ruby -r ./siteconf20171104-41118-yq922b.rb extconf.rb
+creating Makefile
+
+current directory: /Users/vik/RoR_Projects/ViksTnetica17/vendor/cache/ruby/2.3.0/gems/bindex-0.5.0/ext/bindex
+make "DESTDIR=" clean
+
+current directory: /Users/vik/RoR_Projects/ViksTnetica17/vendor/cache/ruby/2.3.0/gems/bindex-0.5.0/ext/bindex
+make "DESTDIR="
+compiling cruby.c
+linking shared-object bindex/cruby.bundle
+
+current directory: /Users/vik/RoR_Projects/ViksTnetica17/vendor/cache/ruby/2.3.0/gems/bindex-0.5.0/ext/bindex
+make "DESTDIR=" install
+/usr/bin/install -c -m 0755 cruby.bundle ./.gem.20171104-41118-shlr8c/bindex
