@@ -5,4 +5,5 @@ Rails.application.routes.draw do
   resources :questions  do
     resources :answers, shallow: true
   end
+  patch  '/questions/:id/set_best_answer_ever/:best_answer_id', to: 'questions#set_best_answer_ever'
 end

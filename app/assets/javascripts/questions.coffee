@@ -9,5 +9,9 @@ editQuestion = ->
     question_id = $(this).data('questionId');
     $('form#edit-question-' + question_id).show();
 
+setBestAnswer = ->
+  $('.best-answer-link').on 'click', (ba) ->
+    ba.preventDefault();
 
 $(document).ready(editQuestion)
+$(document).ready(setBestAnswer)

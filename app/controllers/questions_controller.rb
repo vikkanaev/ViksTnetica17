@@ -1,5 +1,5 @@
 class QuestionsController < ApplicationController
-  before_action :load_question, only: [:show, :edit, :destroy, :update]
+  before_action :load_question, only: [:show, :edit, :destroy, :update, :set_best_answer_ever]
   before_action :authenticate_user!, except: [:index, :show]
 
   def index
@@ -38,6 +38,14 @@ class QuestionsController < ApplicationController
     end
   end
 
+  def set_best_answer_ever
+    answer = Answer.find(params[:best_answer_id])
+    @question.best_answer = answer.id
+    @question.save
+    binding.pry
+    render :index
+  end
+
   private
 
   def load_question
@@ -45,6 +53,6 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:title, :body)
+    params.require(:question).permit(:title, :body, :best_answer_id)
   end
 end
