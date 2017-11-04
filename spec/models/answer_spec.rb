@@ -10,7 +10,7 @@ RSpec.describe Answer, type: :model do
     let!(:best_answer) { create(:answer, question: question, user: user_author) }
     let!(:worst_answer) { create(:answer, question: question, user: user_author) }
 
-    before { question.set_best_answer(best_answer) }
+    before { question.best_answer = best_answer.id }
 
     context 'Return True if answer is best' do
       it { expect(best_answer.is_best?).to be(true) }

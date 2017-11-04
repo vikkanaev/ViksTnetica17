@@ -39,10 +39,10 @@ class QuestionsController < ApplicationController
   end
 
   def set_best_answer_ever
-    answer = Answer.find(params[:best_answer_id])
-    @question.best_answer = answer.id
-    @question.save
-    binding.pry
+    if current_user.author_of?(@question)
+      @question.update(best_answer: params[:best_answer_id])
+      flash[:notice] = 'Set best answer ever!'
+    end
     render :index
   end
 
