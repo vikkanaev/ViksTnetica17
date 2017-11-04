@@ -1,0 +1,13 @@
+current directory: /Users/vik/RoR_Projects/ViksTnetica17/vendor/cache/ruby/2.3.0/gems/json-2.1.0/ext/json
+/Users/vik/.rvm/rubies/ruby-2.3.0/bin/ruby -r ./siteconf20171104-57225-ch1oqg.rb extconf.rb
+creating Makefile
+
+current directory: /Users/vik/RoR_Projects/ViksTnetica17/vendor/cache/ruby/2.3.0/gems/json-2.1.0/ext/json
+make "DESTDIR=" clean
+
+current directory: /Users/vik/RoR_Projects/ViksTnetica17/vendor/cache/ruby/2.3.0/gems/json-2.1.0/ext/json
+make "DESTDIR="
+make: Nothing to be done for `all'.
+
+current directory: /Users/vik/RoR_Projects/ViksTnetica17/vendor/cache/ruby/2.3.0/gems/json-2.1.0/ext/json
+make "DESTDIR=" install
