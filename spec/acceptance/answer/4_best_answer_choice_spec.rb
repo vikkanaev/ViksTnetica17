@@ -37,6 +37,7 @@ feature 'Best answer choice ', %q{
       end
       expect(page).to have_content "Set answer #{answer.id} as best answer ever!"
     end
+
   end # End for describe 'Authenticated user'
 
   describe 'Authenticated user - Not Author' do
@@ -48,11 +49,26 @@ feature 'Best answer choice ', %q{
     scenario 'Not Author not see Chois as Best link' do
       expect(page).to_not have_link 'Chois as Best'
     end
+
   end # describe 'Authenticated user - Not Author'
 
-  describe 'Not Authenticated user' do
-    before { visit question_path(question) }
+  describe 'Not Authenticated user', js: true  do
+    before do
+      sign_in(user_author)
+      visit question_path(question)
+      within "#answer-#{best_answer.id}" do
+        click_on 'Chois as Best'
+      end
+      visit user_session_path
+      click_on 'Logout'
+    end
 
-    scenario 'Best answer showing first'
+    scenario 'Best answer showing first' do
+      visit question_path(question)
+      within ".answers" do
+        expect(page.first("p").text).to have_content best_answer.body
+      end
+    end
+
   end # End describe 'Not Authenticated user'
 end
