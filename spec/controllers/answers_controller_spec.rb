@@ -42,7 +42,7 @@ RSpec.describe AnswersController, type: :controller do
     let!(:user_author) { create(:user) }
     let!(:user_not_author) { create(:user) }
     let!(:question) { create(:question, user: user_author) }
-    let!(:author_answer) { create(:answer, user: user_author) }
+    let!(:author_answer) { create(:answer, user: user_author, question: question) }
     before { question }
 
     context 'LogedIn user' do
@@ -50,27 +50,33 @@ RSpec.describe AnswersController, type: :controller do
         before { sign_in(user_author) }
 
         it 'delete the question in the database' do
-          expect { delete :destroy, params: { id: author_answer } }.to change(Answer, :count).by(-1)
+          expect { delete :destroy, params: { id: author_answer }, format: :js }.to change(Answer, :count).by(-1)
         end
 
-        it 'redirect to index view' do
-          delete :destroy, params: { id: author_answer }
-          expect(response).to redirect_to question_path(author_answer.question)
+        it 'render destroy view' do
+          delete :destroy, params: { id: author_answer }, format: :js
+          expect(response).to render_template :destroy
         end
 
-        it 'Delete best_answer_id from parent question if answer is Best'
+        it 'Delete best_answer_id from parent question if answer is Best' do
+          question.best_answer = author_answer.id
+          question.save!
+          delete :destroy, params: { id: author_answer }, format: :js
+          question.reload
+          expect(question.best_answer).to eq nil
+        end
       end
 
       context 'An non-author' do
         before { sign_in(user_not_author) }
 
         it 'NOT delete the question in the database' do
-          expect { delete :destroy, params: { id: author_answer } }.to_not change(Answer, :count)
+          expect { delete :destroy, params: { id: author_answer }, format: :js }.to_not change(Answer, :count)
         end
 
-        it 'redirect to this question show' do
-          delete :destroy, params: { id: author_answer }
-          expect(response).to redirect_to question_path(author_answer.question)
+        it 'render destroy view' do
+          delete :destroy, params: { id: author_answer }, format: :js
+          expect(response).to render_template :destroy
         end
       end
     end

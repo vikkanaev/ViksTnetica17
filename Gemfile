@@ -15,7 +15,7 @@ gem 'coffee-rails', '~> 4.2'
 gem 'slim-rails'
 gem 'jquery-rails'
 gem 'bootstrap-sass'
-gem 'turbolinks'
+#gem 'turbolinks'
 
 gem 'jbuilder', '~> 2.5'
 gem 'devise'

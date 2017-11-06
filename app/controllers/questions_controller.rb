@@ -29,21 +29,21 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    if current_user.author_of?(@question) && @question.destroy
+    @questions = Question.all
+    if current_user.author_of?(@question)
       flash[:notice] = 'Your question successfully deleted.'
-      redirect_to questions_path
+      @question.destroy
     else
       flash[:notice] = 'You can not delete this question'
-      redirect_to @question
     end
   end
 
   def set_best_answer_ever
+    @answers = @question.answers
     if current_user.author_of?(@question)
+      flash[:notice] = "Set answer #{params[:best_answer_id]} as best answer ever!"
       @question.update(best_answer: params[:best_answer_id])
-      flash[:notice] = 'Set best answer ever!'
     end
-    render :index
   end
 
   private

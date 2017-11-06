@@ -21,9 +21,22 @@ feature 'Best answer choice ', %q{
       expect(page).to have_link 'Chois as Best'
     end
 
-    scenario 'Author can choise best answer'
+    scenario 'Author can choise best answer', js: true do
+      within "#answer-#{best_answer.id}" do
+        click_on 'Chois as Best'
+      end
+      expect(page).to have_content "Set answer #{best_answer.id} as best answer ever!"
+    end
 
-    scenario 'Autor can re-choise another answer as best'
+    scenario 'Autor can re-choise another answer as best', js: true do
+      within "#answer-#{best_answer.id}" do
+        click_on 'Chois as Best'
+      end
+      within "#answer-#{answer.id}" do
+        click_on 'Chois as Best'
+      end
+      expect(page).to have_content "Set answer #{answer.id} as best answer ever!"
+    end
   end # End for describe 'Authenticated user'
 
   describe 'Authenticated user - Not Author' do
@@ -35,8 +48,6 @@ feature 'Best answer choice ', %q{
     scenario 'Not Author not see Chois as Best link' do
       expect(page).to_not have_link 'Chois as Best'
     end
-
-    scenario 'Not autor can`t choise best answer'
   end # describe 'Authenticated user - Not Author'
 
   describe 'Not Authenticated user' do

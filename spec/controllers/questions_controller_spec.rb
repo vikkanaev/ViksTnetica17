@@ -102,24 +102,24 @@ RSpec.describe QuestionsController, type: :controller do
       context 'As author' do
         before { sign_in(user_author) }
         it 'delete the question in the database' do
-          expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
+          expect { delete :destroy, params: { id: question }, format: :js }.to change(Question, :count).by(-1)
         end
 
-        it 'redirect to index view' do
-          delete :destroy, params: { id: question }
-          expect(response).to redirect_to questions_path
+        it 'render destroy view' do
+          delete :destroy, params: { id: question }, format: :js
+          expect(response).to render_template :destroy
         end
       end
 
       context 'An non-author' do
         before { sign_in(user_not_author) }
         it 'NOT delete the question in the database' do
-          expect { delete :destroy, params: { id: question } }.to_not change(Question, :count)
+          expect { delete :destroy, params: { id: question }, format: :js }.to_not change(Question, :count)
         end
 
-        it 'redirect to this question show' do
-          delete :destroy, params: { id: question }
-          expect(response).to redirect_to question_path(assigns(:question))
+        it 'render destroy view' do
+          delete :destroy, params: { id: question }, format: :js
+          expect(response).to render_template :destroy
         end
       end
     end
@@ -205,8 +205,9 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
 
-    it 'render questions list' #do
-  #    expect(response).to render_template :index
-  #  end
+    it 'render template set_best_answer_ever' do
+      patch :set_best_answer_ever, params: { id: question, best_answer_id: answer.id, format: :js }
+      expect(response).to render_template :set_best_answer_ever
+    end
   end
 end

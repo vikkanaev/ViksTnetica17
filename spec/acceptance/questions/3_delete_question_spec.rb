@@ -1,6 +1,6 @@
 require_relative '../acceptance_helper'
 
-feature 'Delete question from the question page', %q{
+feature 'Delete question', %q{
   In order to fix my mistakes
   As an User
   I want to be able to delete my question from the question page
@@ -9,12 +9,12 @@ feature 'Delete question from the question page', %q{
   given!(:user_not_author) { create(:user) }
   given!(:question) { create(:question, user: user_author) }
 
-  scenario 'User can delete his question' do
+  scenario 'User can delete his question from the questions index page', js: true do
     sign_in(user_author)
-    visit question_path(question)
+    visit questions_path
     click_on 'Delete Question'
 
-    expect(page).to have_content 'Your question successfully deleted'
+    expect(page).to have_content 'Your question successfully deleted.'
     expect(page).to_not have_content question.body
   end
 
