@@ -3,12 +3,11 @@ class Question < ApplicationRecord
   has_many :answers, dependent: :destroy
 
   validates :title, :body, presence: true
-
-#  def set_best_answer(answer)
-#    self.best_answer = answer.id
+#  validate :only_one_best_answer
+#
+#  private
+#
+#  def only_one_best_answer
+#    errors.add(:base, 'There can be only one best answer!') if self.answers.where(best: true).count > 1
 #  end
-
-  def unset_best_answer
-    self.best_answer = nil
-  end
 end

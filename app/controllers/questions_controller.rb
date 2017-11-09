@@ -42,7 +42,7 @@ class QuestionsController < ApplicationController
     @answers = @question.answers
     if current_user.author_of?(@question)
       flash[:notice] = "Set answer #{params[:best_answer_id]} as best answer ever!"
-      @question.update(best_answer: params[:best_answer_id])
+      @question.answers.find(params[:best_answer_id]).set_best
     end
   end
 

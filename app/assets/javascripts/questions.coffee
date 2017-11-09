@@ -3,14 +3,14 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 editQuestion = ->
-  $('.edit-question-link').on 'click', (e) ->
+  $('.answers').on 'click', '.edit-question-link', (e) ->
     e.preventDefault();
     $(this).hide();
     question_id = $(this).data('questionId');
     $('form#edit-question-' + question_id).show();
 
 setBestAnswer = ->
-  $('.best-answer-link').on 'click', (ba) ->
+  $('.answers').on 'click', '.best-answer-link', (ba) ->
     ba.preventDefault();
     $(this).hide();
     answer_id = $(this).data('answerId');

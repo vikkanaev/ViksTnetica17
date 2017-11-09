@@ -1,26 +1,15 @@
-- if @question.best_answer
-  - best_a = Answer.find(@question.best_answer)
-  - if best_a
-    b This is best answer ever!
-    p= best_a.body
-    - if user_signed_in? && current_user.author_of?(best_a)
-      div id="answer-#{best_a.id}"
-        b = link_to 'Delete Answer ', answer_path(best_a), method: :delete, remote: true
-        b = link_to 'Edit Answer ', '', class: 'edit-answer-link', data: { answer_id: best_a.id }
-        b This is best answer ever!
-
-- @question.answers.order(:created_at).each do |answer|
- - if answer.persisted? && answer != best_a
+- @question.answers.each do |answer|
+ - if answer.persisted?
     p= answer.body
     - if user_signed_in? && current_user.author_of?(answer)
       div id="answer-#{answer.id}"
         b = link_to 'Delete Answer ', answer_path(answer), method: :delete, remote: true
         b = link_to 'Edit Answer ', '', class: 'edit-answer-link', data: { answer_id: answer.id }
-        - if answer.is_best?
+        - if answer.best?
           b This is best answer ever!
           br
         - else
-          b= link_to 'Chois as Best', '', class: 'best-answer-link', data: { answer_id: answer.id, question_id: @question.id }
+          b= link_to 'Chois as Best', "/questions/#{@question.id}/set_best_answer_ever/#{answer.id}", method: :patch, remote: true
           br
         = form_for answer, remote: true, html: { id: "edit-answer-#{answer.id}" } do |ff|
             = ff.label :body, "Answer"

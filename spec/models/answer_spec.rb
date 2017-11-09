@@ -1,22 +1,30 @@
 require 'rails_helper'
 
 RSpec.describe Answer, type: :model do
+  let!(:user_author) { create(:user) }
+  let!(:question) { create(:question, user: user_author) }
+  let!(:best_answer) { create(:answer, question: question, user: user_author, best: true) }
+  let!(:some_answer) { create(:answer, question: question, user: user_author, best: false) }
+
   it { should belong_to(:question) }
-  it { should validate_presence_of(:body) }
+
+  it 'validate_presence_of(:body)' do
+    best_answer.should validate_presence_of(:body)
+  end
 
   describe 'public model methods' do
-    let!(:user_author) { create(:user) }
-    let!(:question) { create(:question, user: user_author) }
-    let!(:best_answer) { create(:answer, question: question, user: user_author) }
-    let!(:worst_answer) { create(:answer, question: question, user: user_author) }
-
-    before { question.best_answer = best_answer.id }
-
-    context 'Return True if answer is best' do
-      it { expect(best_answer.is_best?).to be(true) }
+    before do
+      question.answers.find(some_answer).set_best
+      question.reload
     end
-    context 'Return False if answer is not best' do
-      it { expect(worst_answer.is_best?).to be(false) }
+
+    context 'Set_best'
+      it 'mark all answers as not best' do
+        expect(question.answers.where(best: false).ids[0]).to eq best_answer.id
+      end
+
+      it 'set this answer as best' do
+        expect(question.answers.where(best: true).ids[0]).to eq some_answer.id
     end
   end
 end

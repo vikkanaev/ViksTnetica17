@@ -57,14 +57,6 @@ RSpec.describe AnswersController, type: :controller do
           delete :destroy, params: { id: author_answer }, format: :js
           expect(response).to render_template :destroy
         end
-
-        it 'Delete best_answer_id from parent question if answer is Best' do
-          question.best_answer = author_answer.id
-          question.save!
-          delete :destroy, params: { id: author_answer }, format: :js
-          question.reload
-          expect(question.best_answer).to eq nil
-        end
       end
 
       context 'An non-author' do

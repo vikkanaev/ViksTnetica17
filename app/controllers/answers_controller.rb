@@ -24,7 +24,6 @@ class AnswersController < ApplicationController
       # я решил перенести удаление после присваивания, но счущает что я не проверяю удаление на успешность
       # Как тут лучше сделать?
       flash[:notice] = 'Your answer successfully deleted.'
-      @question.best_answer = nil if @answer.is_best?
       @answer.destroy
       @question.save!
     else

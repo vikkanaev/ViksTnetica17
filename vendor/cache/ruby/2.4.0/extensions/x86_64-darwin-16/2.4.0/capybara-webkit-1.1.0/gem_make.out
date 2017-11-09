@@ -1,0 +1,5 @@
+current directory: /Users/vik/RoR_Projects/ViksTnetica17/vendor/cache/ruby/2.4.0/gems/capybara-webkit-1.1.0
+/usr/local/opt/ruby/bin/ruby -r ./siteconf20171108-11808-142gj9i.rb extconf.rb
+Command 'qmake -spec macx-g++ ' not available
+
+Makefile not found

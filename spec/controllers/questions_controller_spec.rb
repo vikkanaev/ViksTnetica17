@@ -192,7 +192,7 @@ RSpec.describe QuestionsController, type: :controller do
       it 'save answer id as best_answer_id in question' do
         patch :set_best_answer_ever, params: { id: question, best_answer_id: answer.id, format: :js }
         question.reload
-        expect(question.best_answer).to eq answer.id
+        expect(question.answers.where(best: true).ids[0]).to eq answer.id
       end
     end
 
@@ -201,7 +201,7 @@ RSpec.describe QuestionsController, type: :controller do
         sign_in user_not_author
         patch :set_best_answer_ever, params: { id: question, best_answer_id: answer.id, format: :js }
         question.reload
-        expect(question.best_answer).to_not eq answer.id
+        expect(question.answers.where(best: true).ids[0]).to_not eq answer.id
       end
     end
 
