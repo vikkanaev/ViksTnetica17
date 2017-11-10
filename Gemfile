@@ -23,7 +23,7 @@ gem 'devise'
 group :development, :test do
   gem 'byebug', platform: :mri
   gem 'rubocop-rails'
-  gem 'rspec-rails'
+  gem 'rspec-rails', '~> 3.6.0'
   gem 'factory_girl_rails'
   gem 'rails-controller-testing'
   gem 'pry-rails'
