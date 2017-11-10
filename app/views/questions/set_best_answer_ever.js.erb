@@ -5,18 +5,4 @@
 <% else %>
 $("#notice").html("<%=j flash[:notice] %>");
 $('.answers').html('<%= j render 'answers'%>');
-$('.best-answer-link').on('click', function(ba) {
-  ba.preventDefault();
-  $(this).hide();
-  answer_id = $(this).data('answerId');
-  question_id = $(this).data('questionId');
-  $.ajax({
-          method: "PATCH",
-          url: '/questions/' + question_id + '/set_best_answer_ever/' + answer_id,
-          data: {
-            'best_answer_id': answer_id,
-            'id': question_id,
-            }
-      });
-    });
 <% end %>

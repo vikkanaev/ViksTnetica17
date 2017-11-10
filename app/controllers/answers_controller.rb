@@ -18,16 +18,10 @@ class AnswersController < ApplicationController
 
   def destroy
     @question = @answer.question
-    if current_user.author_of?(@answer)
-      # Если я пишу if current_user.author_of?(@answer) && @answer.destroy
-      # то удаление происходит до присваивания flash[:notice] и рендерится destroy.js.erb без нотиса
-      # я решил перенести удаление после присваивания, но счущает что я не проверяю удаление на успешность
-      # Как тут лучше сделать?
-      flash[:notice] = 'Your answer successfully deleted.'
-      @answer.destroy
-      @question.save!
+    if current_user.author_of?(@answer) && @answer.destroy
+      flash.now[:notice] = 'Your answer successfully deleted.'
     else
-      flash[:notice] = 'You can not delete this answer.'
+      flash.now[:notice] = 'You can not delete this answer.'
     end
   end
 

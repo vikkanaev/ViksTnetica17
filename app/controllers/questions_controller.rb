@@ -19,7 +19,7 @@ class QuestionsController < ApplicationController
     @questions = Question.all
     @question = current_user.questions.build(question_params)
     if @question.save
-      flash[:notice] = 'Your question successfully created.'
+      flash.now[:notice] = 'Your question successfully created.'
     end
   end
 
@@ -30,19 +30,17 @@ class QuestionsController < ApplicationController
 
   def destroy
     @questions = Question.all
-    if current_user.author_of?(@question)
-      flash[:notice] = 'Your question successfully deleted.'
-      @question.destroy
+    if current_user.author_of?(@question) && @question.destroy
+      flash.now[:notice] = 'Your question successfully deleted.'
     else
-      flash[:notice] = 'You can not delete this question'
+      flash.now[:notice] = 'You can not delete this question'
     end
   end
 
   def set_best_answer_ever
     @answers = @question.answers
-    if current_user.author_of?(@question)
-      flash[:notice] = "Set answer #{params[:best_answer_id]} as best answer ever!"
-      @question.answers.find(params[:best_answer_id]).set_best
+    if current_user.author_of?(@question) && @question.answers.find(params[:best_answer_id]).set_best
+      flash.now[:notice] = "Set answer #{params[:best_answer_id]} as best answer ever!"
     end
   end
 
