@@ -12,6 +12,12 @@ RSpec.describe Answer, type: :model do
     best_answer.should validate_presence_of(:body)
   end
 
+  it 'Validate for uniq best answer' do
+    question.answers.new(body: '321', best: true)
+    question.answers.last.valid?
+    expect(question.answers.last.errors.full_messages[0]).to eq('There can be only one best answer!')
+  end
+
   describe 'public model methods' do
     before do
       question.answers.find(some_answer).set_best

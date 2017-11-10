@@ -2,7 +2,7 @@ class Answer < ApplicationRecord
   belongs_to :question
   belongs_to :user
   validates :body, presence: true
-  validate :only_one_best_answer #, on: self.best_changed?
+  validate :only_one_best_answer, if: :best?
 
   default_scope { order(best: :desc, created_at: :asc) }
 
@@ -16,6 +16,8 @@ class Answer < ApplicationRecord
   private
 
   def only_one_best_answer
-    errors.add(:base, 'There can be only one best answer!') if self.question.answers.where(best: true).count > 1
+    condition = question.answers.where(best: true)
+    condition = condition.where.not(id: id) if persisted?
+    errors.add(:base, 'There can be only one best answer!') if condition.present?
   end
 end
