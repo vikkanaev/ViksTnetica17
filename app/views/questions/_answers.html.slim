@@ -9,7 +9,7 @@
           b This is best answer ever!
           br
         - else
-          b= link_to 'Chois as Best', "/questions/#{@question.id}/set_best_answer_ever/#{answer.id}", method: :patch, remote: true
+          b= link_to 'Chois as Best', set_best_answer_path(answer), method: :patch, remote: true
           br
         = form_for answer, remote: true, html: { id: "edit-answer-#{answer.id}" } do |ff|
             = ff.label :body, "Answer"

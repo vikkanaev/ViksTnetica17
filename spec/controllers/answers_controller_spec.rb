@@ -111,4 +111,34 @@ RSpec.describe AnswersController, type: :controller do
       expect(response).to render_template :update
     end
   end
+
+  describe 'PATCH #set_best_answer' do
+    let!(:user_author) { create(:user) }
+    let!(:user_not_author) { create(:user) }
+    let!(:question) { create(:question, user: user_author) }
+    let!(:answer) { create(:answer, question: question, user: user_author) }
+
+    before { sign_in user_author }
+
+    context 'As question author' do
+      it 'save answer id as best_answer_id in question' do
+        patch :set_best_answer_ever, params: { question_id: question, id: answer.id, format: :js }
+        expect(question.answers.where(best: true).ids[0]).to eq answer.id
+      end
+    end
+
+    context 'As NOT question author' do
+      it 'don`t save answer id as best_answer_id in question' do
+        sign_in user_not_author
+        patch :set_best_answer_ever, params: { question_id: question, id: answer.id, format: :js }
+        question.reload
+        expect(question.answers.where(best: true).ids[0]).to_not eq answer.id
+      end
+    end
+
+    it 'render template set_best_answer' do
+      patch :set_best_answer_ever, params: { question_id: question, id: answer.id, format: :js }
+      expect(response).to render_template :set_best_answer_ever
+    end
+  end
 end

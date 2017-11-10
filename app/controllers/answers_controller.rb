@@ -1,6 +1,6 @@
 class AnswersController < ApplicationController
   before_action :find_question, only: [:create]
-  before_action :find_answer, only: [:destroy, :update]
+  before_action :find_answer, only: [:destroy, :update, :set_best_answer_ever]
   before_action :authenticate_user!
 
   def create
@@ -25,6 +25,14 @@ class AnswersController < ApplicationController
     end
   end
 
+  def set_best_answer_ever
+    @question = @answer.question
+    @answers = @question.answers
+    if current_user.author_of?(@question) && @question.answers.find(params[:id]).set_best
+      flash.now[:notice] = "Set answer #{params[:id]} as best answer ever!"
+    end
+  end
+
   private
 
   def answer_params
@@ -38,5 +46,4 @@ class AnswersController < ApplicationController
   def find_answer
     @answer = Answer.find(params[:id])
   end
-
 end

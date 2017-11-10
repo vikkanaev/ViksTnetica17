@@ -37,13 +37,6 @@ class QuestionsController < ApplicationController
     end
   end
 
-  def set_best_answer_ever
-    @answers = @question.answers
-    if current_user.author_of?(@question) && @question.answers.find(params[:best_answer_id]).set_best
-      flash.now[:notice] = "Set answer #{params[:best_answer_id]} as best answer ever!"
-    end
-  end
-
   private
 
   def load_question
@@ -51,6 +44,6 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:title, :body, :best_answer_id)
+    params.require(:question).permit(:title, :body)
   end
 end
