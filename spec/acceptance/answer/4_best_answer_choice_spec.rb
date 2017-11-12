@@ -28,6 +28,18 @@ feature 'Best answer choice ', %q{
       expect(page).to have_content "Set answer #{best_answer.id} as best answer ever!"
     end
 
+    scenario 'Best answer showing first', js: true do
+      visit question_path(question)
+      within "#answer-2" do
+        click_on 'Chois as Best'
+      end
+      wait_for_ajax
+      #save_and_open_page
+      within ".answers" do
+        expect(page.first("p").text).to have_content best_answer.body
+      end
+    end
+
     scenario 'Autor can re-choise another answer as best', js: true do
       within "#answer-#{best_answer.id}" do
         click_on 'Chois as Best'

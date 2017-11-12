@@ -1,5 +1,5 @@
 class QuestionsController < ApplicationController
-  before_action :load_question, only: [:show, :edit, :destroy, :update, :set_best_answer_ever]
+  before_action :load_question, only: [:show, :edit, :destroy, :update]
   before_action :authenticate_user!, except: [:index, :show]
 
   def index
