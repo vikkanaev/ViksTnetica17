@@ -18,19 +18,18 @@ RSpec.describe Answer, type: :model do
     expect(question.answers.last.errors.full_messages[0]).to eq('There can be only one best answer!')
   end
 
-  describe 'public model methods' do
+  describe 'Set_best method' do
     before do
       question.answers.find(some_answer).set_best
-      question.reload
     end
 
-    context 'Set_best'
-      it 'mark all answers as not best' do
-        expect(question.answers.where(best: false).ids[0]).to eq best_answer.id
-      end
+    it 'mark all answers as not best' do
+      expect(question.answers.where(best: false).first).to eq best_answer
+    end
 
-      it 'set this answer as best' do
-        expect(question.answers.where(best: true).ids[0]).to eq some_answer.id
+    it 'set this answer as best' do
+      expect(question.answers.where(best: true).first).to eq some_answer
+      #expect(best_answer).to_not be_best
     end
   end
 end

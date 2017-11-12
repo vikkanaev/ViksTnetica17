@@ -13,6 +13,10 @@ class Answer < ApplicationRecord
     end
   end
 
+  def be_best?
+    self.best?
+  end
+
   private
 
   def only_one_best_answer
