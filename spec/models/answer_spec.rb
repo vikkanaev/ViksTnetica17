@@ -29,7 +29,6 @@ RSpec.describe Answer, type: :model do
 
     it 'set this answer as best' do
       expect(question.answers.where(best: true).first).to eq some_answer
-      #expect(best_answer).to_not be_best
     end
   end
 end
