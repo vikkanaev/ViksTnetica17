@@ -8,6 +8,7 @@ RSpec.describe Answer, type: :model do
 
   it { should belong_to(:question) }
   it { should have_many :attachments }
+  it { should accept_nested_attributes_for :attachments }
 
   it 'validate_presence_of(:body)' do
     best_answer.should validate_presence_of(:body)
