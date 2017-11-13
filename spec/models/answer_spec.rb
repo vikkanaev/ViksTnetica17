@@ -7,6 +7,7 @@ RSpec.describe Answer, type: :model do
   let!(:some_answer) { create(:answer, question: question, user: user_author, best: false) }
 
   it { should belong_to(:question) }
+  it { should have_many :attachments }
 
   it 'validate_presence_of(:body)' do
     best_answer.should validate_presence_of(:body)
