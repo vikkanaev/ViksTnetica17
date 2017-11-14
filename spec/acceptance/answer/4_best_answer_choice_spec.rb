@@ -34,7 +34,6 @@ feature 'Best answer choice ', %q{
         click_on 'Chois as Best'
       end
       wait_for_ajax
-      #save_and_open_page
       within ".answers" do
         expect(page.first("p").text).to have_content best_answer.body
       end
