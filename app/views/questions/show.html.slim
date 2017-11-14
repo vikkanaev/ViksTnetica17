@@ -1,9 +1,10 @@
-h1 #{@question.title}
-p #{@question.body}
-p Attachments:
-ul
-  - @question.attachments.each do |a|
-    li= a.file.file.filename
+.question
+  h1 #{@question.title}
+  p #{@question.body}
+  p Attachments:
+  ul
+    - @question.attachments.each do |a|
+      li= link_to a.file.identifier, a.file_url
 
 .answer-errors
 br
@@ -16,6 +17,11 @@ h3 Pls make an answer:
   = form_for [@question, @answer], remote: :true do |f|
     = f.label :body
     = f.text_area :body
+    p Attachments:
+    p
+      = f.fields_for :attachments do |aa|
+        = aa.label :file
+        = aa.file_field :file
     = f.submit 'Create Answer'
 - else
   p You need to sign in or sign up before commenting

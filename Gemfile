@@ -20,6 +20,7 @@ gem 'bootstrap-sass'
 gem 'jbuilder', '~> 2.5'
 gem 'devise'
 gem 'carrierwave', '~> 1.0'
+gem 'remotipart'
 
 group :development, :test do
   gem 'byebug', platform: :mri

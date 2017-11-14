@@ -11,8 +11,8 @@ RSpec.describe QuestionsController, type: :controller do
     it 'populates an array of all questions' do
       expect(assigns(:questions)).to match_array(questions)
     end
-    
-    it 'assigns a new attachment to @question' do
+
+    it 'builds a new attachment to @question' do
       expect(assigns(:question).attachments.first).to be_a_new(Attachment)
     end
 
@@ -26,6 +26,10 @@ RSpec.describe QuestionsController, type: :controller do
 
     it 'assigns the requested question to @question' do
       expect(assigns(:question)).to eq question
+    end
+
+    it 'builds new attachment for answer' do
+      expect(assigns(:answer).attachments.first).to be_a_new(Attachment)
     end
 
     it 'renders show view' do
