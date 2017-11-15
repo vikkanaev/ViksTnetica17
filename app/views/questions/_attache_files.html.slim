@@ -1,0 +1,5 @@
+p Attachments:
+p
+  = nf.fields_for :attachments, remote: true do |attach|
+    .links
+      = link_to_add_association 'add file', nf, :attachments, partial: 'attache_nested_elements'

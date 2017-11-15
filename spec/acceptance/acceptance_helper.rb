@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.configure do |config|
-  # lets roll
   Capybara.javascript_driver = :webkit
   config.use_transactional_fixtures = false
   config.include AcceptanceMacros, type: :feature

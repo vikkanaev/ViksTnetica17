@@ -10,11 +10,7 @@
     p
       = f.label :body
       = f.text_area :body
-      p Attachments:
-      p
-        = f.fields_for :attachments do |a|
-          = a.label :file
-          = a.file_field :file
+      = render 'attache_files', nf: f
     p= f.submit 'Create'
 - if @question.errors.any?
   = @question.errors.full_messages.each do |msg|
