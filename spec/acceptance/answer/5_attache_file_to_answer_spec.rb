@@ -7,17 +7,24 @@ feature 'Create answer from the question page', %q{
 } do
   given!(:user) { create(:user) }
   given!(:question) { create(:question) }
-  #given(:answer) { create(:answer, question: question, user: user) }
 
-  scenario 'Authenticated user create answer if all fields is valid' #, js: true do
-#    sign_in(user)
-#    visit question_path(question)
-#    fill_in 'Body', with: answer.body
-#    attach_file 'File', "#{Rails.root}/spec/spec_helper.rb"
-#
-#    click_on 'Create Answer'
-#    within '.answers' do
-#      expect(page).to have_link 'spec_helper.rb', href: '/uploads/attachment/file/1/spec_helper.rb'
-#    end
-#  end
+
+  scenario 'Authenticated user create answer if all fields is valid', js: true do
+    sign_in(user)
+    visit question_path(question)
+    fill_in 'Body', with: 'Answer Body'
+    click_on 'add file'
+    click_on 'add file'
+    inputs = all('input[type="file"]')
+      inputs[0].set("#{Rails.root}/README.md")
+      inputs[1].set("#{Rails.root}/spec/rails_helper.rb")
+
+    wait_for_ajax
+    click_on 'Create'
+
+    within '.answers' do
+      expect(page).to have_link 'README.md', href: '/uploads/attachment/file/1/README.md'
+      expect(page).to have_link 'rails_helper.rb', href: '/uploads/attachment/file/2/rails_helper.rb'
+    end
+  end
 end

@@ -17,11 +17,7 @@ h3 Pls make an answer:
   = form_for [@question, @answer], remote: :true do |f|
     = f.label :body
     = f.text_area :body
-    p Attachments:
-    p
-      = f.fields_for :attachments do |aa|
-        = aa.label :file
-        = aa.file_field :file
+    = render 'attache_files', nf: f
     = f.submit 'Create Answer'
 - else
   p You need to sign in or sign up before commenting

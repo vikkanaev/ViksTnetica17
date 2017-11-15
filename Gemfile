@@ -15,12 +15,13 @@ gem 'coffee-rails', '~> 4.2'
 gem 'slim-rails'
 gem 'jquery-rails'
 gem 'bootstrap-sass'
-#gem 'turbolinks'
+gem 'turbolinks'
 
 gem 'jbuilder', '~> 2.5'
 gem 'devise'
 gem 'carrierwave', '~> 1.0'
 gem 'remotipart'
+gem 'cocoon'
 
 group :development, :test do
   gem 'byebug', platform: :mri
@@ -44,6 +45,7 @@ group :test do
   gem 'shoulda-matchers'
   gem 'capybara'
   gem 'launchy'
+  gem 'selenium-webdriver'
 end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
