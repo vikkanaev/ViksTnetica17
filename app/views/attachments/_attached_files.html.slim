@@ -1,0 +1,10 @@
+-if attachmentable.attachments.present?
+  p Attachments:
+  ul
+    - attachmentable.attachments.each do |a|
+      .attachments
+        - if a.persisted?
+          li id="attachment-#{a.id}"
+            = link_to a.file.identifier, a.file_url
+            - if user_signed_in? && current_user.author_of?(attachmentable)
+              = link_to ' Delete', attachment_path(a), method: :delete, remote: true

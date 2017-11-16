@@ -1,10 +1,8 @@
 .question
   h1 #{@question.title}
   p #{@question.body}
-  p Attachments:
-  ul
-    - @question.attachments.each do |a|
-      li= link_to a.file.identifier, a.file_url
+  = render 'attachments/attached_files', attachmentable: @question
+
 
 .answer-errors
 br
@@ -17,7 +15,9 @@ h3 Pls make an answer:
   = form_for [@question, @answer], remote: :true do |f|
     = f.label :body
     = f.text_area :body
-    = render 'attache_files', nf: f
+    = f.fields_for :attachments, remote: true do |attach|
+      .links
+        = link_to_add_association 'add file', f, :attachments, partial: 'attachments/attache_nested_elements'
     = f.submit 'Create Answer'
 - else
   p You need to sign in or sign up before commenting
