@@ -1,0 +1,8 @@
+<% if @attachment.errors.any? %>
+    <% @attachment.errors.full_messages.each do |msg| %>
+        $('.questions-errors').html('<%= j msg %>');
+    <% end %>
+<% else %>
+    $("#notice").html("<%=j flash[:notice] %>");
+    $('#attachment-<%= @attachment.id %>').closest('.attachments').html('<%= j render 'attachments/attached_files', attachmentable: @attachment.attachmentable %>');
+<% end %>

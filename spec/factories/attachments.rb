@@ -1,5 +1,6 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :attachment do
-    file "MyString"
+    attachmentable nil
+    file { Rack::Test::UploadedFile.new("#{Rails.root}/README.md") }
   end
 end
