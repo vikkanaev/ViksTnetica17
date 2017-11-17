@@ -18,7 +18,7 @@ before_script:
   - bundle exec rake db:migrate RAILS_ENV=test
 
 script:
- - bundle exec rspec
+ - xvfb-run rspec
 
 install:
   - sudo apt-get -y install qt55[QTPACKAGE]
