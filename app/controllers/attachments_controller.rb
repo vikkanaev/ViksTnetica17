@@ -3,7 +3,6 @@ class AttachmentsController < ApplicationController
 
   def destroy
     @attachment = Attachment.find(params[:id])
-    @parent =
     if current_user.author_of?(@attachment.attachmentable) && @attachment.destroy
       flash.now[:notice] = 'Your attachment successfully deleted.'
     else
