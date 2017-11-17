@@ -6,6 +6,9 @@ before_install:
   - gem --version
   - postgres -V
   - sudo add-apt-repository --yes ppa:beineri/opt-qt551-trusty
+  - sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa
+  - sudo apt-get install qtbase5-dev qtdeclarative5-dev libqt5webkit5-dev libsqlite3-dev
+  - sudo apt-get install qt5-default qttools5-dev-tools
   - sudo apt-get update -qq
 
 before_script:
@@ -15,8 +18,9 @@ before_script:
   - bundle exec rake db:migrate RAILS_ENV=test
 
 script:
-  - source /opt/qt55/bin/qt55-env.sh
-  - /opt/qt55/bin/qmake
+ - qmake -project
+ - qmake Ultron.pro
+ - make
 
 install:
   - sudo apt-get -y install qt55[QTPACKAGE]
