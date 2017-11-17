@@ -6,5 +6,5 @@
     $("#notice").html("<%=j flash[:notice] %>");
     $('.questions').html('<%= j render 'questions/questions'%>');
     $('#question_title, #question_body, #question_attachments_attributes_0_file').val('');
-
+    $('.nested-fields').html('');
 <% end %>
