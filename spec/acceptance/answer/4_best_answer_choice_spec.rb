@@ -46,6 +46,7 @@ feature 'Best answer choice ', %q{
       within "#answer-#{answer.id}" do
         click_on 'Chois as Best'
       end
+      wait_for_ajax
       expect(page).to have_content "Set answer #{answer.id} as best answer ever!"
     end
 
