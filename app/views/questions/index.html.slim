@@ -1,20 +1,18 @@
 .questions
   = render 'questions'
-
-- if user_signed_in?
-  b Ask your question if you want:
-  = form_for @question, remote: true do |f|
-    p
-      = f.label :title
-      = f.text_field :title
-    p
-      = f.label :body
-      = f.text_area :body
-      = render 'attachments/attached_files', attachmentable: @question
-      = f.fields_for :attachments, remote: true do |attach|
-        .links
-          = link_to_add_association 'add file', f, :attachments, partial: 'attachments/attache_nested_elements'
-    p= f.submit 'Create'
-- if @question.errors.any?
-  = @question.errors.full_messages.each do |msg|
-    li #{msg}
+.well
+  - if user_signed_in?
+    b Ask your question if you want:
+    = form_for @question, remote: true, html: { class: 'form-horizontal' } do |f|
+      .form-group
+        = f.label :title, class: 'col-sm-1'
+        = f.text_field :title, class: 'col-sm-2'
+      .form-group
+        = f.label :body, class: 'col-sm-1'
+        = f.text_area :body, class: 'col-sm-2'
+      .form-group
+        = f.fields_for :attachments, remote: true do |attach|
+          .links
+            .col-sm-12= link_to_add_association fa_icon("paperclip", text: "add file"), f, :attachments, partial:   'attachments/attache_nested_elements'
+      .form-group
+        = f.submit 'Create', class: 'btn btn-default'
