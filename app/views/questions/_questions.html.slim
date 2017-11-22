@@ -1,13 +1,20 @@
 .questions-errors
 - if @questions
-  - @questions.order(:created_at).each do |question|
-    p= link_to question.title, question
-    - if user_signed_in? && current_user.author_of?(question)
-      p= link_to 'Delete Question', question_path(question), method: :delete, remote: true
-      p= link_to 'Edit Question', '', class: 'edit-question-link', data: { question_id: question.id }
-      = form_for question, remote: true, html: { id: "edit-question-#{question.id}" } do |ff|
-          = ff.label :title
-          = ff.text_field :title
-          p= ff.label :body, "Question"
-          = ff.text_area :body
-          = ff.submit 'Save Question'
+    - @questions.order(:created_at).each do |question|
+      .well
+        h4= link_to question.title, question
+        - if user_signed_in? && current_user.author_of?(question)
+          = render 'attachments/attached_files', attachmentable: question
+          .float-right.btn-group
+            = link_to fa_icon("trash", text: "Delete Question"), question_path(question), class: 'btn btn-default', method: :delete, remote: true
+            = link_to fa_icon("edit", text: "Edit Question"), '', class: 'edit-question-link btn btn-default', data: { question_id: question.id }
+        .item
+          = form_for question, remote: true, html: { id: "edit-question-#{question.id}", class: 'form-horizontal edit_question' } do |ff|
+            .form-group
+              = ff.label :title, class: 'col-sm-2'
+              = ff.text_field :title, class: 'col-sm-2'
+            .form-group
+              = ff.label :body, "Question", class: 'col-sm-2'
+              = ff.text_area :body, class: 'col-sm-2'
+            .form-group
+              = ff.submit 'Save Question', class: 'btn btn-default' 

@@ -1,18 +1,21 @@
 - @question.answers.each do |answer|
  - if answer.persisted?
+  .well
     p= answer.body
     = render 'attachments/attached_files', attachmentable: answer
     - if user_signed_in? && current_user.author_of?(answer)
       div id="answer-#{answer.id}"
-        b = link_to 'Delete Answer ', answer_path(answer), method: :delete, remote: true
-        b = link_to 'Edit Answer ', '', class: 'edit-answer-link', data: { answer_id: answer.id }
+        .float-right.btn-group
+          = link_to fa_icon("trash", text: "Delete Answer"), answer_path(answer), method: :delete, class: 'btn btn-default', remote: true
+          = link_to fa_icon("edit", text: "Edit Answer"), '', class: 'edit-answer-link btn btn-default', data: { answer_id: answer.id }
         - if answer.best?
-          b This is best answer ever!
-          br
+          = link_to fa_icon("star", text: "This is best answer ever!"), '', class: 'btn btn-default disabled'
         - else
-          b= link_to 'Chois as Best', set_best_answer_path(answer), method: :patch, remote: true
-          br
-        = form_for answer, remote: true, html: { id: "edit-answer-#{answer.id}" } do |ff|
-            = ff.label :body, "Answer"
-            = ff.text_area :body
-            = ff.submit 'Save'
+          = link_to fa_icon("star", text: "Chois as Best"), set_best_answer_path(answer), method: :patch, class: 'btn btn-default', remote: true
+        .item
+          = form_for answer, remote: true, html: { id: "edit-answer-#{answer.id}", class: 'form-horizontal edit_answer' } do |ff|
+            .form-group
+              = ff.label :body, "Answer", class: 'col-sm-2'
+              = ff.text_area :body, class: 'col-sm-2'
+            .form-group
+              = ff.submit 'Save', class: 'btn btn-default'
