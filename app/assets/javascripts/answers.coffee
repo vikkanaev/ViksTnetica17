@@ -10,3 +10,4 @@ editAnswer = ->
     $('form#edit-answer-' + answer_id).show();
 
 $(document).ready(editAnswer)
+$(document).on('turbolinks:load', editAnswer )

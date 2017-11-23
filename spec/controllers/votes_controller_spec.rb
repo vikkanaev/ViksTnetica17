@@ -62,8 +62,30 @@ RSpec.describe VotesController, type: :controller do
   end
 
   describe 'PATCH #vote_down' do
-    context 'User voting for other users question'
-    context 'User voting for his question'
+    context 'User voting for other users question' do
+      before { sign_in(user_2) }
+
+      it 'save user vote in votable' do
+        expect{ patch :vote_down, params: { question_id: question_user_1, format: :js } }.to change(Vote, :count).by(+1)
+      end
+
+      it 'return success message in json' do
+        patch :vote_down, params: { question_id: question_user_1, format: :js }
+        expect(response.body).to eq({ id: question_user_1.id, score: question_user_1.sum_score, have_vote: true, type: question_user_1.class.to_s }.to_json)
+      end
+    end
+
+    context 'User voting for his question' do
+      before { sign_in(user_1) }
+      it 'NOT save user vote in votable' do
+        expect{ patch :vote_down, params: { question_id: question_user_1, format: :js } }.to_not change(Vote, :count)
+      end
+
+      it 'return error message in json' do
+        patch :vote_down, params: { question_id: question_user_1, format: :js }
+        expect(response.body).to eq({message: "You can`t vote for your Question", status: :unprocessable_entity}.to_json)
+      end
+    end
   end
 
   describe 'PATCH #vote_cancel' do
