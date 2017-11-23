@@ -9,11 +9,21 @@ class VotesController < ApplicationController
   end
 
   def vote_down
-    votable.vote_down(current_user)
+    unless current_user.author_of?(votable)
+      votable.vote_down(current_user)
+      render json: { id: @votable.id, score: @votable.sum_score, have_vote: true, type: votable.class.to_s }
+    else
+      render json: { message: "You can`t vote for your #{votable.class.to_s}", status: :unprocessable_entity }
+    end
   end
 
   def vote_cancel
-    votable.vote_cancel(current_user)
+    unless current_user.author_of?(votable)
+      votable.vote_cancel(current_user)
+      render json: { id: @votable.id, score: @votable.sum_score, vote_cancal: true, type: votable.class.to_s }
+    else
+      render json: { message: "You can`t cancel vote for #{votable.class.to_s}", status: :unprocessable_entity }
+    end
   end
 
   private

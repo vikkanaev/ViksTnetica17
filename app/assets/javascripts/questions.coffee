@@ -10,3 +10,4 @@ editQuestion = ->
     $('form#edit-question-' + question_id).show();
 
 $(document).ready(editQuestion)
+$(document).on('turbolinks:load', editQuestion )
