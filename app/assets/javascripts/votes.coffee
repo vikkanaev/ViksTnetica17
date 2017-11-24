@@ -3,15 +3,10 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 showVote = ->
-  $('.main').bind 'ajax:success', (e, data, status, xhr) ->
+  $('.questions, .answers').bind 'ajax:success', (e, data, status, xhr) ->
     responce = $.parseJSON(xhr.responseText)
 
-    if responce.type == "Question"
-      votable = $("#question-#{responce.id}")
-      console.log("work in: ", votable, responce.score)
-    else if responce.type == "Answer"
-      votable = $("#answer-#{responce.id}")
-
+    votable = $("##{responce.type.toLowerCase()}-#{responce.id}")
     votable.find("#vote-score-summ").html(responce.score)
 
     if responce.have_vote
