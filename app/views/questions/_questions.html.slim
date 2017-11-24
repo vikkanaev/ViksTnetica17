@@ -1,15 +1,6 @@
 .questions-errors
 - if @questions
     - @questions.order(:created_at).each do |question|
-      - if question.votes.exists?
-        - vote_up_show = 'no_display_btn'
-        - vote_down_show = 'no_display_btn'
-        - vote_cancel_show = ''
-      - else
-        - vote_up_show = ''
-        - vote_down_show = ''
-        - vote_cancel_show = 'no_display_btn'
-
       .well id="question-#{question.id}"
         .col-sm-10 = link_to question.title, question
         b.float-right Question score&nbsp;
@@ -20,9 +11,9 @@
             = link_to fa_icon("trash", text: "Delete Question"), question_path(question), class: 'btn btn-default', method: :delete, remote: true
             = link_to fa_icon("edit", text: "Edit Question"), '', class: 'edit-question-link btn btn-default', data: { question_id: question.id }
           - elsif user_signed_in?
-            = link_to fa_icon("remove", text: "Vote_cancel"), question_vote_cancel_path(question), class: "btn btn-default vote-cancel #{vote_cancel_show}", method: :patch, remote: true
-            = link_to fa_icon("thumbs-up", text: "Vote_up"), question_vote_up_path(question), class: "btn btn-default vote-up #{vote_up_show}", method: :patch, remote: true
-            = link_to fa_icon("thumbs-down", text: "Vote_down"), question_vote_down_path(question), class: "btn btn-default vote-down #{vote_down_show}", method: :patch, remote: true
+            = link_to fa_icon("remove", text: "Vote_cancel"), question_vote_cancel_path(question), class: "btn btn-default vote-cancel #{vote_cancel_show?(question)}", method: :patch, remote: true
+            = link_to fa_icon("thumbs-up", text: "Vote_up"), question_vote_up_path(question), class: "btn btn-default vote-up #{vote_btn_show?(question)}", method: :patch, remote: true
+            = link_to fa_icon("thumbs-down", text: "Vote_down"), question_vote_down_path(question), class: "btn btn-default vote-down #{vote_btn_show?(question)}", method: :patch, remote: true
 
 
         .item

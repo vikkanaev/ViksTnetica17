@@ -1,13 +1,5 @@
 - @question.answers.each do |answer|
  - if answer.persisted?
-  - if answer.votes.exists?
-    - vote_up_show = 'no_display_btn'
-    - vote_down_show = 'no_display_btn'
-    - vote_cancel_show = ''
-  - else
-    - vote_up_show = ''
-    - vote_down_show = ''
-    - vote_cancel_show = 'no_display_btn'
   .well id="answer-#{answer.id}"
     p.col-sm-10 = answer.body
     b.float-right Answer score&nbsp;
@@ -29,6 +21,6 @@
               .form-group
                 = ff.submit 'Save', class: 'btn btn-default'
     - elsif user_signed_in?
-      = link_to fa_icon("remove", text: "Vote_cancel"), answer_vote_cancel_path(answer), class: "btn btn-default vote-cancel #{vote_cancel_show}", method: :patch, remote: true
-      = link_to fa_icon("thumbs-up", text: "Vote_up"), answer_vote_up_path(answer), class: "btn btn-default vote-up #{vote_up_show}", method: :patch, remote: true
-      = link_to fa_icon("thumbs-down", text: "Vote_down"), answer_vote_down_path(answer), class: "btn btn-default vote-down #{vote_down_show}", method: :patch, remote: true
+      = link_to fa_icon("remove", text: "Vote_cancel"), answer_vote_cancel_path(answer), class: "btn btn-default vote-cancel #{vote_cancel_show?(answer)}", method: :patch, remote: true
+      = link_to fa_icon("thumbs-up", text: "Vote_up"), answer_vote_up_path(answer), class: "btn btn-default vote-up #{vote_btn_show?(answer)}", method: :patch, remote: true
+      = link_to fa_icon("thumbs-down", text: "Vote_down"), answer_vote_down_path(answer), class: "btn btn-default vote-down #{vote_btn_show?(answer)}", method: :patch, remote: true
