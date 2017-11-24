@@ -27,7 +27,7 @@ feature 'Authenticated user delete files on his question', %q{
     within '#attachment-1' do
       click_on 'Delete'
     end
-    wait_for_ajax
+    #wait_for_ajax
     within '.question' do
       expect(page).to_not have_link 'README.md', href: '/uploads/attachment/file/1/README.md'
       expect(page).to have_link 'rails_helper.rb', href: '/uploads/attachment/file/2/rails_helper.rb'

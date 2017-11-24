@@ -11,7 +11,7 @@
         - vote_cancel_show = 'no_display_btn'
 
       .well id="question-#{question.id}"
-        .col-sm-2 = link_to question.title, question
+        .col-sm-10 = link_to question.title, question
         b.float-right Question score&nbsp;
         .badge id='vote-score-summ' #{question.sum_score}
         = render 'attachments/attached_files', attachmentable: question
