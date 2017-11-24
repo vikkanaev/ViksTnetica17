@@ -12,7 +12,8 @@
 
       .well id="question-#{question.id}"
         .col-sm-2 = link_to question.title, question
-        .badge.float-right id='vote-score-summ' #{question.sum_score}
+        b.float-right Question score&nbsp;
+        .badge id='vote-score-summ' #{question.sum_score}
         = render 'attachments/attached_files', attachmentable: question
         .float-right.btn-group.vote-btn
           - if user_signed_in? && current_user.author_of?(question)

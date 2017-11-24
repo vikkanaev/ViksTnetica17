@@ -3,7 +3,7 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 showVote = ->
-  $('.vote-btn').bind 'ajax:success', (e, data, status, xhr) ->
+  $('.main').bind 'ajax:success', (e, data, status, xhr) ->
     responce = $.parseJSON(xhr.responseText)
 
     if responce.type == "Question"
