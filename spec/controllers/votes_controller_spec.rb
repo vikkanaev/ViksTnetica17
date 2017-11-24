@@ -30,7 +30,7 @@ RSpec.describe VotesController, type: :controller do
 
       it 'return error message in json' do
         patch :vote_up, params: { question_id: question_user_1, format: :js }
-        expect(response.body).to eq({message: "You can`t vote for your Question", status: :unprocessable_entity}.to_json)
+        expect(response.body).to eq({message: "You can`t vote for your Question"}.to_json)
       end
     end
 
@@ -56,7 +56,7 @@ RSpec.describe VotesController, type: :controller do
 
       it 'return error message in json' do
         patch :vote_up, params: { answer_id: answer_user_1, format: :js }
-        expect(response.body).to eq({message: "You can`t vote for your Answer", status: :unprocessable_entity}.to_json)
+        expect(response.body).to eq({message: "You can`t vote for your Answer"}.to_json)
       end
     end
   end
@@ -83,7 +83,7 @@ RSpec.describe VotesController, type: :controller do
 
       it 'return error message in json' do
         patch :vote_down, params: { question_id: question_user_1, format: :js }
-        expect(response.body).to eq({message: "You can`t vote for your Question", status: :unprocessable_entity}.to_json)
+        expect(response.body).to eq({message: "You can`t vote for your Question"}.to_json)
       end
     end
   end
