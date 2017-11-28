@@ -1,0 +1,7 @@
+.questions-errors
+      .well id="question-#{question.id}"
+        .col-sm-10 = link_to question.title, question
+        b.float-right Question score&nbsp;
+        .badge id='vote-score-summ' #{question.sum_score}
+        = render 'attachments/attached_files', attachmentable: question
+        .float-right.btn-group.vote-btn
