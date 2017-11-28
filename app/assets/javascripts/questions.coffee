@@ -9,5 +9,17 @@ editQuestion = ->
     question_id = $(this).data('questionId');
     $('form#edit-question-' + question_id).show();
 
+questionsChannel = ->
+  App.cable.subscriptions.create('QuestionsChannel', {
+    connected: ->
+      console.log 'New connect'
+      @perform 'follow'
+    ,
+
+    received: (data) ->
+      $(".questions").append data
+  })
+
 $(document).ready(editQuestion)
+$(document).ready(questionsChannel)
 $(document).on('turbolinks:load', editQuestion )
