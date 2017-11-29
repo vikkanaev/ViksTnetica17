@@ -16,6 +16,7 @@
 //= require jquery_ujs
 //= require jquery.remotipart
 //= require action_cable
+//= require skim
 //= require_tree .
 
 var App = App || {};
