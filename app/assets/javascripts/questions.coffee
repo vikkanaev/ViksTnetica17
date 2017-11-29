@@ -17,7 +17,10 @@ questionsChannel = ->
     ,
 
     received: (data) ->
-      $(".questions").append data
+      console.log 'data', data
+      question = $.parseJSON(data)
+      $(".questions").append question
+      $(".questions").append(JST["templates/question"]({object: question}))
   })
 
 $(document).ready(editQuestion)

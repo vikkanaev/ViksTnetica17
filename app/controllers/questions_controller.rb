@@ -23,6 +23,7 @@ class QuestionsController < ApplicationController
     @question = current_user.questions.build(question_params)
     if @question.save
       flash.now[:notice] = 'Your question successfully created.'
+      render json: @question
     end
   end
 
@@ -46,9 +47,8 @@ class QuestionsController < ApplicationController
     return if @question.errors.any?
     ActionCable.server.broadcast(
       'questions',
-      ApplicationController.render(
-        partial: 'questions/question',
-        locals: { question: @question }
+        question: ApplicationController.render(
+          json: @question
       )
     )
   end
