@@ -1,1 +1,21 @@
-p Hello #{@object.id}!
+.well id="question-#{@object.id}"
+  .col-sm-10
+    a href="/questions/#{@object.id}" #{@object.title}
+  b.float-right Question score&nbsp;
+  .badge id='vote-score-summ' #{@object.sum_score}
+  -if @object.attachments.length > 0
+    .item.attachments
+      p Attachments:
+      -for attach in @object.attachments
+        ul.list-unstyled
+          li id="attachment-#{attach.id}"
+            a.ml-1 href=attach.file_url #{attach.file_name}
+  .float-right.btn-group.vote-btn
+    - if gon.user_signed_in && @object.user_id != gon.current_user_id
+      .float-right.btn-group.vote-btn
+        a.btn.btn-default.vote-cancel.no_display_btn data-remote="true" rel="nofollow" data-method="patch" href="/questions/#{@object.id}/vote_cancel"
+         i.fa.fa-remove Vote_cancel
+        a.btn.btn-default.vote-up data-remote="true" rel="nofollow" data-method="patch" href="/questions/#{@object.id}/vote_up"
+          i.fa.fa-thumbs-up Vote_up
+        a.btn.btn-default.vote-down data-remote="true" rel="nofollow" data-method="patch" href="/questions/#{@object.id}/vote_down"
+          i.fa.fa-thumbs-down Vote_down
