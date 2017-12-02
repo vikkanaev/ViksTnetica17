@@ -7,6 +7,7 @@ class QuestionsController < ApplicationController
     @questions = Question.all
     @question = Question.new
     @question.attachments.build
+    gon.question_id = params[:id]
   end
 
   def show
@@ -23,7 +24,6 @@ class QuestionsController < ApplicationController
     @question = current_user.questions.build(question_params)
     if @question.save
       flash.now[:notice] = 'Your question successfully created.'
-      render json: @question
     end
   end
 
@@ -48,7 +48,8 @@ class QuestionsController < ApplicationController
     ActionCable.server.broadcast(
       'questions',
         question: ApplicationController.render(
-          json: @question
+          partial: 'questions/question_channel',
+          locals: { question: @question }
       )
     )
   end

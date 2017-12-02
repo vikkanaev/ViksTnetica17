@@ -4,6 +4,7 @@
     <title>ViksTnetica17</title>
     <%= csrf_meta_tags %>
     <%= action_cable_meta_tag %>
+    <%= Gon::Base.render_data %> <!-- Почему это работает и откуда это взялось? Почему не пашет include_gon_amd namespace: 'data' -->
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>

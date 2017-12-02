@@ -31,4 +31,27 @@ feature 'Create question', %q{
 
     expect(page).to have_content "Body can't be blank"
   end
+
+  context "muliple sessions" do
+    scenario "question appears on other users page", js: true do
+      Capybara.using_session('user') do
+        sign_in(user)
+        visit questions_path
+      end
+      Capybara.using_session('guest') do
+        visit questions_path
+      end
+      Capybara.using_session('user') do
+        fill_in 'Title', with: 'Test question'
+        fill_in 'Body', with: 'Tell me why why why'
+        click_on 'Create'
+        expect(page).to have_content 'Your question successfully created.'
+        expect(page).to have_content 'Test question'
+      end
+      Capybara.using_session('guest') do
+        expect(page).to have_content 'Test question'
+      end
+
+    end
+  end
 end

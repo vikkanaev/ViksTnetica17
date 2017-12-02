@@ -17,9 +17,8 @@ questionsChannel = ->
     ,
 
     received: (data) ->
-      console.log 'data', data
-      question = $.parseJSON(data)
-      $(".questions").append question
+      question = $.parseJSON(data['question'])
+      return if gon.current_user_id == question.user_id
       $(".questions").append(JST["templates/question"]({object: question}))
   })
 
