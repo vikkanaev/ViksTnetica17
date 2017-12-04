@@ -2,6 +2,7 @@ class AnswersController < ApplicationController
   before_action :find_question, only: [:create]
   before_action :find_answer, only: [:destroy, :update, :set_best_answer_ever]
   before_action :authenticate_user!
+  after_action :publish_answer, only: [:create]
 
   def create
     @answer = @question.answers.create(answer_params)
@@ -34,6 +35,17 @@ class AnswersController < ApplicationController
   end
 
   private
+
+  def publish_answer
+    return if @answer.errors.any?
+    ActionCable.server.broadcast(
+      "questions/#{@answer.question_id}/answers",
+        answer: ApplicationController.render(
+          partial: 'questions/answer_channel',
+          locals: { answer: @answer }
+      )
+    )
+  end
 
   def answer_params
     params.require(:answer).permit(:body, attachments_attributes: [:file])
