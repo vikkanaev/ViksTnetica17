@@ -1,9 +1,10 @@
 class Answer < ApplicationRecord
   include Votable
-  
+
   belongs_to :question
   belongs_to :user
   has_many :attachments, as: :attachmentable
+  has_many :comments, as: :commentable, dependent: :destroy
 
   validates :body, presence: true
   validate :only_one_best_answer, if: :best?
