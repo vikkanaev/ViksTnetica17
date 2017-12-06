@@ -26,7 +26,9 @@ showCommentForm = ->
     $('.new-comment-link').on 'click', (e) ->
         e.preventDefault();
         $(this).hide();
-        $('.create_comment').show();
+        comment_id = $(this)[0].id
+        console.log 'comment_id', comment_id
+        $('.create_comment#' + comment_id).show();
 
 $(document).ready(showCommentForm)
 $(document).ready(editQuestion)

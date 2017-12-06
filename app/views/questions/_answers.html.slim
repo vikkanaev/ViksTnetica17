@@ -24,3 +24,5 @@
       = link_to fa_icon("remove", text: "Vote_cancel"), answer_vote_cancel_path(answer), class: "btn btn-default vote-cancel #{vote_cancel_show?(answer)}", method: :patch, remote: true
       = link_to fa_icon("thumbs-up", text: "Vote_up"), answer_vote_up_path(answer), class: "btn btn-default vote-up #{vote_btn_show?(answer)}", method: :patch, remote: true
       = link_to fa_icon("thumbs-down", text: "Vote_down"), answer_vote_down_path(answer), class: "btn btn-default vote-down #{vote_btn_show?(answer)}", method: :patch, remote: true
+    = render 'comments/comments', commentable: answer
+    = render 'comments/add_comment_form', commentable: answer
