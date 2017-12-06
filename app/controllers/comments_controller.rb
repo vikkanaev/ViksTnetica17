@@ -1,9 +1,8 @@
 class CommentsController < ApplicationController
-  before_action :find_question, only: [:create]
-  #before_action :find_answer, only: [:destroy, :update, :set_best_answer_ever]
+  before_action :find_commentable, only: [:create]
 
   def create
-    @comment = @question.comments.create(comment_params)
+    @comment = @commentable.comments.create(comment_params)
     @comment.user_id = current_user.id
     if @comment.save
       flash.now[:notice] = 'Your comment successfully created.'
@@ -16,7 +15,13 @@ class CommentsController < ApplicationController
     params.require(:comment).permit(:message)
   end
 
-  def find_question
-    @question = Question.find(params[:question_id])
+  def find_commentable
+    @commentable ||= if params[:question_id]
+                  Question.find(params[:question_id])
+                elsif params[:answer_id]
+                  Answer.find(params[:answer_id])
+                else
+                  raise "Commentable entyty"
+                end
   end
 end

@@ -1,8 +1,8 @@
-.item
-  - if commentable.comments.present?
-    .comments
-      b Comments:
-      - commentable.comments.each do |c|
-        - if c.persisted?
-          p id="comment-#{c.id}" #{c.message}
-          hr
+  .item
+    - if commentable.comments.present?
+      .comments id="comment-#{commentable.class.to_s}-#{commentable.id}"
+        b Comments:
+        - commentable.comments.each do |c|
+            - if c.persisted?
+              p id="comment-#{c.id}" #{c.message}
+              hr
