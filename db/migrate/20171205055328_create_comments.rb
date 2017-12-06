@@ -6,8 +6,6 @@ class CreateComments < ActiveRecord::Migration[5.0]
       t.references :user, foreign_key: true
       t.references :commentable, polymorphic: true
 
-      t.index [:commentable_id, :commentable_type], unique: true
-
       t.timestamps
     end
   end

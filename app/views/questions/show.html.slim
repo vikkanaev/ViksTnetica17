@@ -2,6 +2,8 @@
   h1 #{@question.title}
   p #{@question.body}
   = render 'attachments/attached_files', attachmentable: @question
+  = render 'comments/comments', commentable: @question
+  = render 'comments/add_comment_form', commentable: @question
   .answer-errors
     .answers
       = render 'answers'

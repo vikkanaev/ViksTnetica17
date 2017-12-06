@@ -22,6 +22,13 @@ questionsChannel = ->
       $(".questions").append(JST["templates/question"]({object: question}))
   })
 
+showCommentForm = ->
+    $('.new-comment-link').on 'click', (e) ->
+        e.preventDefault();
+        $(this).hide();
+        $('.create_comment').show();
+
+$(document).ready(showCommentForm)
 $(document).ready(editQuestion)
 $(document).ready(questionsChannel)
 $(document).on('turbolinks:load', editQuestion )

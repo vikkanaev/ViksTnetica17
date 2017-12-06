@@ -1,0 +1,7 @@
+- if user_signed_in?
+  = link_to 'add a comment', '#', class: 'new-comment-link'
+  .create_comment
+    = form_for [commentable, @comment], remote: :true do |f|
+      = f.label :message
+      = f.text_area :message
+      = f.submit 'Save comment', class: 'btn btn-default'
