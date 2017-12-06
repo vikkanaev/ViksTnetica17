@@ -1,0 +1,6 @@
+
+$('.comments').html('<%= j render 'comments/comments', commentable: @question %>');
+$('.create_comment').hide();
+$('.new-comment-link').show();
+$('#comment_message').val('');
+$("#notice").html("<%=j flash[:notice] %>");
