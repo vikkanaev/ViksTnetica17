@@ -8,6 +8,7 @@ class AnswersController < ApplicationController
     @answer = @question.answers.create(answer_params)
     @answer.user = current_user
     if @answer.save
+      @comment = @answer.comments.build
       flash[:notice] = 'Your answer successfully created.'
     end
   end
@@ -15,10 +16,12 @@ class AnswersController < ApplicationController
   def update
     @answer.update(answer_params)
     @question = @answer.question
+    @comment = @answer.comments.build
   end
 
   def destroy
     @question = @answer.question
+    @comment = @answer.comments.build
     if current_user.author_of?(@answer) && @answer.destroy
       flash.now[:notice] = 'Your answer successfully deleted.'
     else
@@ -29,6 +32,7 @@ class AnswersController < ApplicationController
   def set_best_answer_ever
     @question = @answer.question
     @answers = @question.answers
+    @comment = @answer.comments.build
     if current_user.author_of?(@question) && @question.answers.find(params[:id]).set_best
       flash.now[:notice] = "Set answer #{params[:id]} as best answer ever!"
     end

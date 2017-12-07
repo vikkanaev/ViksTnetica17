@@ -23,7 +23,7 @@ questionsChannel = ->
   })
 
 showCommentForm = ->
-    $('.new-comment-link').on 'click', (e) ->
+    $('.main').on 'click', '.new-comment-link', (e) ->
         e.preventDefault();
         $(this).hide();
         comment_id = $(this)[0].id
@@ -34,3 +34,4 @@ $(document).ready(showCommentForm)
 $(document).ready(editQuestion)
 $(document).ready(questionsChannel)
 $(document).on('turbolinks:load', editQuestion )
+$(document).on('turbolinks:load', showCommentForm )
