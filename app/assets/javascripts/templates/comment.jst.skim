@@ -1,0 +1,4 @@
+    b Comments:
+    -for comment in @object.comments
+      p id="comment-#{comment.id}" #{comment.message}
+      hr

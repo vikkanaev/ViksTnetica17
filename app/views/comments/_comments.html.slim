@@ -1,6 +1,6 @@
   .item
-    - if commentable.comments.present?
-      .comments id="comment-#{commentable.class.to_s}-#{commentable.id}"
+    .comments id="comment-#{commentable.class.to_s}-#{commentable.id}"
+      - if commentable.comments.present?
         b Comments:
         - commentable.comments.each do |c|
             - if c.persisted?

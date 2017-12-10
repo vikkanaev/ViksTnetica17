@@ -6,3 +6,8 @@ json.attachments answer.attachments do |a|
   json.file_name a.file.identifier
   json.file_url a.file.url
 end
+
+json.comments answer.comments do |c|
+  json.id c.id
+  json.message c.message
+end

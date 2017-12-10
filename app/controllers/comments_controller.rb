@@ -1,5 +1,6 @@
 class CommentsController < ApplicationController
   before_action :find_commentable, only: [:create]
+  after_action :publish_comment, only: [:create]
 
   def create
     @comment = @commentable.comments.create(comment_params)
@@ -23,5 +24,27 @@ class CommentsController < ApplicationController
                 else
                   raise "Commentable entyty"
                 end
+  end
+
+  def publish_comment
+    comment_parent = @commentable.class.to_s.downcase
+    return if @commentable.errors.any?
+    if comment_parent == 'question'
+      ActionCable.server.broadcast(
+        'questions',
+          question: ApplicationController.render(
+            partial: 'questions/question_channel',
+            locals: { question: @commentable }
+        )
+      )
+    elsif comment_parent == 'answer'
+      ActionCable.server.broadcast(
+        "questions/#{@commentable.question_id}/answers",
+          answer: ApplicationController.render(
+            partial: 'questions/answer_channel',
+            locals: { answer: @commentable }
+        )
+      )
+    end
   end
 end

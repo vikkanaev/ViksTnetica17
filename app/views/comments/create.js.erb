@@ -1,6 +1,6 @@
 
 $(".comments#comment-<%= @commentable.class.to_s%>-<%= @commentable.id%>").html('<%= j render 'comments/comments', commentable: @commentable %>');
 $('.create_comment').hide();
-$('.new-comment-link').show(); 
-$('#comment_message').val('');
+$('.new-comment-link').show();
+$("#comment_message-<%= @commentable.class.to_s%>-<%= @commentable.id%>").val('');
 $("#notice").html("<%=j flash[:notice] %>");
