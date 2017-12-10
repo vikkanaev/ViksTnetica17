@@ -19,9 +19,9 @@ answersChannel = ->
 
     received: (data) ->
       answer = $.parseJSON(data['answer'])
-      console.log answer
       return if gon.current_user_id == answer.user_id
       $(".answers").append(JST["templates/answer"]({object: answer}))
+      $(".comments").html(JST["templates/comment"]({object: answer}))
   })
 
 

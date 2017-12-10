@@ -1,8 +1,8 @@
 - if user_signed_in? && commentable.present?
-  .comments
+  .comments-add
     = link_to 'add a comment', '#', class: 'new-comment-link', id: "comment-#{commentable.class.to_s}-#{commentable.id}"
     .create_comment id="comment-#{commentable.class.to_s}-#{commentable.id}"
       = form_for [commentable, @comment], remote: :true do |f|
         = f.label :message
-        = f.text_area :message
+        = f.text_area :message, id: "comment_message-#{commentable.class.to_s}-#{commentable.id}" 
         = f.submit 'Save comment', class: 'btn btn-default'

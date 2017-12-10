@@ -17,9 +17,12 @@ questionsChannel = ->
     ,
 
     received: (data) ->
+      console.log 'New data in question', data
       question = $.parseJSON(data['question'])
       return if gon.current_user_id == question.user_id
+      console.log 'and now', question
       $(".questions").append(JST["templates/question"]({object: question}))
+      $(".comments").html(JST["templates/comment"]({object: question}))
   })
 
 showCommentForm = ->
