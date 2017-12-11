@@ -15,9 +15,7 @@ feature 'Create comment', %q{
     within '#answer-1' do
       click_on 'add a comment'
 
-      # не понимаю почему помогло заменить вместо fill_in 'Message' на fill_in 'comment[message]'
-      # но первое не работало, а это завелось!
-      fill_in 'comment[message]', with: 'My comment body'
+      fill_in 'Message', with: 'My comment body'
       click_on 'Save comment'
     end
     expect(page).to have_content 'Your comment successfully created.'
