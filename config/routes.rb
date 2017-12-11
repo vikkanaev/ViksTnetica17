@@ -8,10 +8,12 @@ Rails.application.routes.draw do
       patch 'vote_cancel', to: 'votes#vote_cancel'
   end
 
-  resources :questions, concerns: :votable  do
+  concern :commetable do
     resources :comments, shallow: true
-    resources :answers, concerns: :votable, shallow: true do
-      resources :comments, shallow: true
+  end
+
+  resources :questions, concerns: [:votable, :commetable]  do
+    resources :answers, concerns: [:votable, :commetable], shallow: true do
       patch 'set_best_answer_ever', on: :member, as: :set_best
     end
   end
