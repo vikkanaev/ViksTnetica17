@@ -13,7 +13,7 @@ feature 'Create comment', %q{
     visit question_path(question)
       click_on 'add a comment'
 
-      fill_in "comment[message]", with: 'My comment body'
+      fill_in "Message", with: 'My comment body'
       click_on 'Save comment'
 
     expect(page).to have_content 'Your comment successfully created.'
@@ -32,7 +32,7 @@ feature 'Create comment', %q{
       Capybara.using_session('user') do
         click_on 'add a comment'
 
-        fill_in 'comment[message]', with: 'My comment body'
+        fill_in 'Message', with: 'My comment body'
         click_on 'Save comment'
 
         expect(page).to have_content 'Your comment successfully created.'
