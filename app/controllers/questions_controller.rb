@@ -15,7 +15,6 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    @comment = @question.comments.build
     respond_with @question
   end
 

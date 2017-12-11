@@ -2,7 +2,7 @@
   .comments-add
     = link_to 'add a comment', '#', class: 'new-comment-link', id: "comment-#{commentable.class.to_s}-#{commentable.id}"
     .create_comment id="comment-#{commentable.class.to_s}-#{commentable.id}"
-      = form_for [commentable, @comment], remote: :true do |f|
+      = form_for [commentable, commentable.comments.build], remote: :true do |f|
         = f.label :message, for: "comment_message-#{commentable.class.to_s}-#{commentable.id}"
         = f.text_area :message, id: "comment_message-#{commentable.class.to_s}-#{commentable.id}"
         = f.submit 'Save comment', class: 'btn btn-default'
