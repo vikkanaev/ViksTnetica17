@@ -26,6 +26,7 @@ gem 'cocoon'
 gem 'gon'
 gem 'skim'
 gem 'jbuilder', '~> 2.5'
+gem 'responders'
 
 group :development, :test do
   gem 'byebug', platform: :mri

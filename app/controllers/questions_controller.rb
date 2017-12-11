@@ -1,49 +1,58 @@
 class QuestionsController < ApplicationController
   before_action :load_question, only: [:show, :edit, :destroy, :update]
   before_action :authenticate_user!, except: [:index, :show]
+  before_action :set_gon_question_id, only: [:index, :show]
+  before_action :build_answer, only: :show
+  before_action :build_question, only: :index
+  before_action :load_all_questions, only: [:create, :update, :destroy]
+
   after_action :publish_question, only: [:create]
 
+  respond_to :json, :js
+
   def index
-    @questions = Question.all
-    @question = Question.new
-    @question.attachments.build
-    gon.question_id = params[:id]
+    respond_with(@questions = Question.all)
   end
 
   def show
-    @answer = @question.answers.build
     @comment = @question.comments.build
-    @answer.attachments.build
-    gon.question_id = params[:id]
+    respond_with @question
   end
 
   def new
-    @question = Question.new
+    respond_with(@question = Question.new)
   end
 
   def create
-    @questions = Question.all
-    @question = current_user.questions.build(question_params)
-    if @question.save
-      flash.now[:notice] = 'Your question successfully created.'
-    end
+    respond_with(@question = current_user.questions.create(question_params))
   end
 
   def update
     @question.update(question_params)
-    @questions = Question.all
+    respond_with @question
   end
 
   def destroy
-    @questions = Question.all
-    if current_user.author_of?(@question) && @question.destroy
-      flash.now[:notice] = 'Your question successfully deleted.'
-    else
-      flash.now[:notice] = 'You can not delete this question'
-    end
+    respond_with(@question.delete_if_legal(current_user, @question))
   end
 
   private
+
+  def load_all_questions
+    @questions = Question.all
+  end
+
+  def build_question
+    @question = Question.new
+  end
+
+  def build_answer
+    @answer = @question.answers.build
+  end
+
+  def set_gon_question_id
+    gon.question_id = params[:id]
+  end
 
   def publish_question
     return if @question.errors.any?
