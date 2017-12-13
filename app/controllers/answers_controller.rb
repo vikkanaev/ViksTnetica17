@@ -19,7 +19,7 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    respond_with(@answer.delete_if_legal(current_user))
+    respond_with(@answer.delete) if current_user.author_of?(@answer)
   end
 
   def set_best_answer_ever
