@@ -19,11 +19,11 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    respond_with(@answer.delete) if current_user.author_of?(@answer)
+    respond_with(@answer.destroy) if current_user.author_of?(@answer)
   end
 
   def set_best_answer_ever
-     @question.answers.find(params[:id]).set_best if current_user.author_of?(@question)
+     respond_with(@question.answers.find(params[:id]).set_best) if current_user.author_of?(@question)
   end
 
   private

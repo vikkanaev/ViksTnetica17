@@ -32,7 +32,7 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    respond_with(@question.delete) if current_user.author_of?(@question)
+    respond_with(@question.destroy) if current_user.author_of?(@question)
   end
 
   private
