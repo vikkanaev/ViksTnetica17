@@ -23,6 +23,10 @@ class Answer < ApplicationRecord
     self.best?
   end
 
+  def delete_if_legal(user)
+    self.destroy if user.author_of?(self)
+  end
+
   private
 
   def only_one_best_answer

@@ -15,7 +15,7 @@ feature 'Create answer from the question page', %q{
     fill_in 'Body', with: answer.body
 
     click_on 'Create Answer'
-    expect(page).to have_content 'Your answer successfully created.'
+    expect(page).to have_content 'Answer was successfully created.'
     expect(page).to have_content answer.body
   end
 
@@ -46,7 +46,7 @@ feature 'Create answer from the question page', %q{
       Capybara.using_session('user') do
         fill_in 'Body', with: 'Tell me why why why'
         click_on 'Create Answer'
-        expect(page).to have_content 'Your answer successfully created.'
+        expect(page).to have_content 'Answer was successfully created.'
         expect(page).to have_content 'Tell me why why why'
       end
       Capybara.using_session('guest') do

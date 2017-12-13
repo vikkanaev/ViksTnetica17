@@ -24,8 +24,8 @@ feature 'Best answer choice ', %q{
     scenario 'Author can choise best answer', js: true do
       within "#answer-#{best_answer.id}" do
         click_on 'Chois as Best'
+        expect(page).to have_content "This is best answer ever!"
       end
-      expect(page).to have_content "Set answer #{best_answer.id} as best answer ever!"
     end
 
     scenario 'Best answer showing first', js: true do
@@ -45,9 +45,9 @@ feature 'Best answer choice ', %q{
       end
       within "#answer-#{answer.id}" do
         click_on 'Chois as Best'
+        wait_for_ajax
+        expect(page).to have_content "This is best answer ever!"
       end
-      wait_for_ajax
-      expect(page).to have_content "Set answer #{answer.id} as best answer ever!"
     end
 
   end # End for describe 'Authenticated user'

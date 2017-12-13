@@ -2,36 +2,28 @@ class AnswersController < ApplicationController
   before_action :find_question, only: [:create]
   before_action :find_answer, only: [:destroy, :update, :set_best_answer_ever]
   before_action :authenticate_user!
+  before_action :load_all_answers, only: :set_best_answer_ever
+
   after_action :publish_answer, only: [:create]
+
 
   respond_to :json, :js
 
   def create
-    @answer = @question.answers.create(answer_params)
-    @answer.user = current_user
-    if @answer.save
-      flash[:notice] = 'Your answer successfully created.'
-    end
+    respond_with(@answer = @question.answers.create(answer_params.merge(user_id: current_user.id)))
   end
 
   def update
     @answer.update(answer_params)
-    #respond_with @answer
+    respond_with @answer
   end
 
   def destroy
-    if current_user.author_of?(@answer) && @answer.destroy
-      flash.now[:notice] = 'Your answer successfully deleted.'
-    else
-      flash.now[:notice] = 'You can not delete this answer.'
-    end
+    respond_with(@answer.delete_if_legal(current_user))
   end
 
   def set_best_answer_ever
-    @answers = @question.answers
-    if current_user.author_of?(@question) && @question.answers.find(params[:id]).set_best
-      flash.now[:notice] = "Set answer #{params[:id]} as best answer ever!"
-    end
+     @question.answers.find(params[:id]).set_best if current_user.author_of?(@question)
   end
 
   private
@@ -45,6 +37,10 @@ class AnswersController < ApplicationController
           locals: { answer: @answer }
       )
     )
+  end
+
+  def load_all_answers
+    @answers = @question.answers
   end
 
   def answer_params
