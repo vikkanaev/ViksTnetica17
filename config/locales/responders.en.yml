@@ -16,3 +16,6 @@ en:
         alert: 'You can not delete this question'
       create:
         notice: 'Your question successfully created.'
+    answers:
+      destroy:
+        notice: 'Your answer successfully deleted'

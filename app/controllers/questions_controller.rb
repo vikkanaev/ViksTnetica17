@@ -32,7 +32,7 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    respond_with(@question.delete_if_legal(current_user, @question))
+    respond_with(@question.delete_if_legal(current_user))
   end
 
   private
