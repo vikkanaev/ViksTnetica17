@@ -2,7 +2,7 @@ sudo: required
 dist: trusty
 env:
   global:
-    - CC_TEST_REPORTER_ID=b063d9174afdf20c789d905036ac9e91782bf54a
+    - CC_TEST_REPORTER_ID=8e5f916d381cd500f767eebb5cf932a19f5da4da626cf64d38ffa6249cfe6d1a
 
 before_install:
   - gem update --system
