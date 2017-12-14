@@ -1,5 +1,8 @@
 sudo: required
 dist: trusty
+env:
+  global:
+    - CC_TEST_REPORTER_ID=b063d9174afdf20c789d905036ac9e91782bf54a
 
 before_install:
   - gem update --system
@@ -12,6 +15,9 @@ before_install:
   - sudo apt-get update -qq
 
 before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
   - psql -c 'create database vikstnetica17_db;' -U postgres
   - cp config/database.yml.travis config/database.yml
   - bundle install
@@ -19,6 +25,9 @@ before_script:
 
 script:
  - xvfb-run rspec
+
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 
 install:
   - sudo apt-get -y install qt55[QTPACKAGE]
