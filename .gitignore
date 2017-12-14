@@ -19,6 +19,7 @@
 !/tmp/.keep
 
 /public/uploads/*
+coverage
 
 # Ignore Byebug command history file.
 .byebug_history
