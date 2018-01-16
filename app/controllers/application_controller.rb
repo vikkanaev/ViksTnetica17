@@ -12,4 +12,11 @@ class ApplicationController < ActionController::Base
     gon.user_signed_in = user_signed_in?
     gon.current_user_id = current_user.id if current_user
   end
+
+  private
+
+  def success_omniauth_login(user, kind)
+    flash[:notice] = "Successfully authenticated from #{kind} account."
+    sign_in_and_redirect user, event: :authentication
+  end
 end

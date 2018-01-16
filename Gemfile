@@ -29,6 +29,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'responders'
 gem 'omniauth'
 gem 'omniauth-facebook'
+gem 'omniauth-twitter'
 
 group :development, :test do
   gem 'byebug', platform: :mri

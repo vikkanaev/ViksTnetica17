@@ -5,6 +5,7 @@ RSpec.describe User, type: :model do
   it { should validate_presence_of(:password) }
   it { should have_many :authorizations }
   it { should have_many(:answers).dependent(:destroy) }
+  it { should have_many(:authorizations).dependent(:destroy) }
 
   describe 'public model methods' do
     let!(:user_author) { create(:user) }
@@ -19,7 +20,7 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe '.find_for_oauth' do
+  describe 'self.find_for_oauth' do
     let!(:user) { create(:user) }
     let(:auth) { OmniAuth::AuthHash.new(provider: 'facebook', uid: '123456') }
 
@@ -81,6 +82,19 @@ RSpec.describe User, type: :model do
           expect(authorization.uid).to eq auth.uid
         end
       end
+    end
+  end
+
+  describe 'self.make_new_user' do
+    let(:email) { 'test@foobar.com' }
+
+    it 'Make and return new user' do
+      expect(User.make_new_user(email)).to be_a User
+    end
+
+    it 'Not create but return User if user exist' do
+      create(:user, email: email)
+      expect(User.make_new_user(email)).to be_a User
     end
   end
 end
