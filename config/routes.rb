@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'authorizations/new'
+
   devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks' }
   root to: "questions#index"
 
@@ -20,4 +22,6 @@ Rails.application.routes.draw do
 
   resources :attachments, only: :destroy
   mount ActionCable.server => "/cable"
+
+  resources :authorizations, only: [:new, :create] 
 end
