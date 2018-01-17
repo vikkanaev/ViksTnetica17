@@ -14,12 +14,40 @@ feature 'GuestUser registration via social networks', '
     expect(page).to have_content('mockuser_facebook') # user name
   end
 
+  scenario 'Existing User login via Facebook' do
+    visit new_user_registration_path
+    expect(page).to have_content('Sign in with Facebook')
+    mock_auth_hash
+    click_link 'Sign in with Facebook'
+    expect(page).to have_content('mockuser_facebook')
+  end
+
   scenario 'New User registre via Twitter' do
     visit new_user_registration_path
     expect(page).to have_content('Sign in with Twitter')
     mock_auth_hash
     click_link 'Sign in with Twitter'
-    save_and_open_page
     expect(page).to have_content('please enter email') # user name
+    fill_in 'email', with: 'user@test.com'
+    click_on 'Enter'
+    expect(page).to have_content('Successfully authenticated from Twitter account')
+  end
+
+  describe 'Existing User login via Twitter' do
+    given(:user) { create(:user) }
+    given!(:auth) { OmniAuth.config.mock_auth[:twitter] }
+    given(:email) { 'user@test.com' }
+
+    scenario 'Existing User login via Twitter' do
+      user = create(:user, email: email)
+      create(:authorization, user: user, provider: auth.provider, uid: auth.uid, confirmed_at: Time.zone.now)
+
+      visit new_user_registration_path
+      expect(page).to have_content('Sign in with Twitter')
+      mock_auth_hash
+      click_link 'Sign in with Twitter'
+
+      expect(page).to have_content('Successfully authenticated from Twitter account')
+    end
   end
 end
