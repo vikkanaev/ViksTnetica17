@@ -10,6 +10,8 @@ class QuestionsController < ApplicationController
 
   respond_to :json, :js
 
+  # authorize_resource
+
   def index
     respond_with(@questions = Question.all)
   end
@@ -57,9 +59,9 @@ class QuestionsController < ApplicationController
     return if @question.errors.any?
     ActionCable.server.broadcast(
       'questions',
-        question: ApplicationController.render(
-          partial: 'questions/question_channel',
-          locals: { question: @question }
+      question: ApplicationController.render(
+        partial: 'questions/question_channel',
+        locals: { question: @question }
       )
     )
   end

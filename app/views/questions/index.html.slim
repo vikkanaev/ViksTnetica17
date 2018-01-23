@@ -1,7 +1,7 @@
 .questions
   = render 'questions'
 .well
-  - if user_signed_in?
+  - if can?(:create, Question)
     b Ask your question if you want:
     = form_for @question, remote: true, html: { class: 'form-horizontal' } do |f|
       .form-group

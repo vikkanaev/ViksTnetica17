@@ -1,4 +1,4 @@
-require "application_responder"
+require 'application_responder'
 
 class ApplicationController < ActionController::Base
   self.responder = ApplicationResponder
@@ -19,4 +19,11 @@ class ApplicationController < ActionController::Base
     flash[:notice] = "Successfully authenticated from #{kind} account."
     sign_in_and_redirect user, event: :authentication
   end
+
+  rescue_from CanCan::AccessDenied do |exception|
+    flash[:notice] = exception.message
+    redirect_to root_url, alert: exception.message
+  end
+
+  # check_authorization
 end
