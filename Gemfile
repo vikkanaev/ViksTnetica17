@@ -25,11 +25,11 @@ gem 'remotipart'
 gem 'cocoon'
 gem 'gon'
 gem 'skim'
-gem 'jbuilder', '~> 2.5'
 gem 'responders'
 gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
+gem 'cancancan', '~> 2.0'
 
 group :development, :test do
   gem 'byebug', platform: :mri
