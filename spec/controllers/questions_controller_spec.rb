@@ -33,7 +33,6 @@ RSpec.describe QuestionsController, type: :controller do
     log_in_user
     before { get :new }
 
-
     it 'assigns a new question to @question' do
       expect(assigns(:question)).to be_a_new(Question)
     end
@@ -43,18 +42,20 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
-  describe 'GET #edit' do
-    log_in_user
-    before { get :edit, params: { id: question } }
+   describe 'GET #edit' do
+     before do
+       sign_in user_author
+       get :edit, params: { id: question }
+     end
 
-    it 'assigns the requested question to @question' do
-      expect(assigns(:question)).to eq question
-    end
+     it 'assigns the requested question to @question' do
+       expect(assigns(:question)).to eq question
+     end
 
-    it 'renders edit view' do
-      expect(response).to render_template :edit
-    end
-  end
+     it 'renders edit view' do
+       expect(response).to render_template :edit
+     end
+   end
 
   describe 'POST #create' do
     log_in_user
@@ -118,15 +119,15 @@ RSpec.describe QuestionsController, type: :controller do
           expect { delete :destroy, params: { id: question }, format: :js }.to_not change(Question, :count)
         end
 
-        it 'render destroy view' do
+        it 'render exaption template' do
           delete :destroy, params: { id: question }, format: :js
-          expect(response).to render_template :destroy
+          expect(response).to render_template 'partials/exception'
         end
       end
     end
 
     context 'NotLogedIn user' do
-      before { get :edit, params: { id: question } }
+      before { get :create, params: { id: question } }
       it 'NOT delete the question in the database' do
         expect { delete :destroy, params: { id: question } }.to_not change(Question, :count)
       end
@@ -144,7 +145,10 @@ RSpec.describe QuestionsController, type: :controller do
     let(:question) { create(:question, user: user_author) }
     let(:update_valid_question) { patch :update, params: { id: question, user: user_author, question: { body: 'new body', title: 'new title' }, format: :js } }
 
-    before { update_valid_question }
+    before do
+      sign_in user_author
+      update_valid_question
+    end
 
     context 'with valid attributes' do
       it 'assings the requested question to @question' do
