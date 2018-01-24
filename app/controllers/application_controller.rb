@@ -21,8 +21,11 @@ class ApplicationController < ActionController::Base
   end
 
   rescue_from CanCan::AccessDenied do |exception|
-    flash[:notice] = exception.message
-    redirect_to root_url, alert: exception.message
+    respond_to do |format|
+      format.json { render json: [exception.message], status: 500 }
+      format.html { redirect_to root_url, alert: exception.message }
+      format.js   { render 'partials/exception', locals: { item: exception.message } }
+    end
   end
 
   # check_authorization
