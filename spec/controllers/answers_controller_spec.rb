@@ -66,9 +66,9 @@ RSpec.describe AnswersController, type: :controller do
           expect { delete :destroy, params: { id: author_answer }, format: :js }.to_not change(Answer, :count)
         end
 
-        it 'render destroy view' do
+        it 'render exaption template' do
           delete :destroy, params: { id: author_answer }, format: :js
-          expect(response).to render_template :destroy
+          expect(response).to render_template 'partials/exception'
         end
       end
     end
@@ -136,7 +136,7 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
 
-    it 'render template set_best_answer' do
+    it 'render set_best template' do
       patch :set_best_answer_ever, params: { question_id: question, id: answer.id, format: :js }
       expect(response).to render_template :set_best_answer_ever
     end

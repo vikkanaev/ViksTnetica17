@@ -6,8 +6,8 @@ class AnswersController < ApplicationController
 
   after_action :publish_answer, only: [:create]
 
-
   respond_to :json, :js
+  authorize_resource
 
   def create
     respond_with(@answer = @question.answers.create(answer_params.merge(user_id: current_user.id)))
@@ -23,7 +23,7 @@ class AnswersController < ApplicationController
   end
 
   def set_best_answer_ever
-     respond_with(@question.answers.find(params[:id]).set_best) if current_user.author_of?(@question)
+    respond_with(@question.answers.find(params[:id]).set_best) if current_user.author_of?(@question)
   end
 
   private
@@ -32,9 +32,9 @@ class AnswersController < ApplicationController
     return if @answer.errors.any?
     ActionCable.server.broadcast(
       "questions/#{@question.id}/answers",
-        answer: ApplicationController.render(
-          partial: 'questions/answer_channel',
-          locals: { answer: @answer }
+      answer: ApplicationController.render(
+        partial: 'questions/answer_channel',
+        locals: { answer: @answer }
       )
     )
   end

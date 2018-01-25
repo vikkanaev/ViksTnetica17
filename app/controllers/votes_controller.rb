@@ -1,6 +1,7 @@
 class VotesController < ApplicationController
   def vote_up
     unless current_user.author_of?(votable)
+      #authorize! :create, votable
       votable.vote_up(current_user)
       render json: { id: @votable.id, score: @votable.sum_score, have_vote: true, type: votable.class.to_s }
     else
@@ -10,6 +11,7 @@ class VotesController < ApplicationController
 
   def vote_down
     unless current_user.author_of?(votable)
+      #authorize! :create, votable
       votable.vote_down(current_user)
       render json: { id: @votable.id, score: @votable.sum_score, have_vote: true, type: votable.class.to_s }
     else
@@ -19,6 +21,7 @@ class VotesController < ApplicationController
 
   def vote_cancel
     unless current_user.author_of?(votable)
+      #authorize! :destroy, votable.votes.where(user_id: current_user).last
       votable.vote_cancel(current_user)
       render json: { id: @votable.id, score: @votable.sum_score, vote_cancal: true, type: votable.class.to_s }
     else
