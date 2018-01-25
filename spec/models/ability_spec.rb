@@ -33,8 +33,6 @@ describe Ability do # rubocop:disable Metrics/BlockLength
       it { should be_able_to :create, Answer }
       it { should be_able_to :create, Comment }
       it { should be_able_to :create, Attachment }
-      it { should be_able_to :create, create(:vote, votable: other_question) }
-      it { should_not be_able_to :create, create(:vote, votable: question) }
     end
 
     describe 'update' do
@@ -55,13 +53,21 @@ describe Ability do # rubocop:disable Metrics/BlockLength
       it { should_not be_able_to :destroy, create(:comment, user_id: other_user), user: user }
       it { should be_able_to :destroy, create(:attachment, attachmentable: question), user: user }
       it { should_not be_able_to :destroy, create(:attachment, attachmentable: other_question), user: user }
-      it { should be_able_to :destroy, create(:vote, votable: other_question, user: user), user: user }
-      it { should_not be_able_to :destroy, create(:vote, votable: other_question, user: other_user), user: user }
     end
 
     describe 'set_best' do
-      it { should be_able_to :set_best, create(:answer, question: question), user: user }
-      it { should_not be_able_to :set_best, create(:answer, question: other_question), user: user }
+      it { should be_able_to :set_best_answer_ever, create(:answer, question: question), user: user }
+      it { should_not be_able_to :set_best_answer_ever, create(:answer, question: other_question), user: user }
+    end
+
+    describe 'vote' do
+      # it { should be_able_to :create, create(:vote, votable: other_question) }
+      # it { should_not be_able_to :create, create(:vote, votable: question) }
+      it { should be_able_to :destroy, create(:vote, votable: other_question, user: user), user: user }
+      it { should_not be_able_to :destroy, create(:vote, votable: other_question, user: other_user), user: user }
+      it 'vote_up'
+      it 'vote_down'
+      it 'vote_cancal'
     end
   end
 end

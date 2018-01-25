@@ -13,7 +13,6 @@ feature 'Authenticated user vote for question', %q{
   given!(:answer_1_user_2) { create(:answer, question: question, user: user_2) }
   given!(:answer_2_user_2) { create(:answer, question: question, user: user_2) }
 
-
   scenario 'Authenticated user vote-up for answer', js: true do
     sign_in(user_2)
     visit question_path(question)
