@@ -61,13 +61,27 @@ describe Ability do # rubocop:disable Metrics/BlockLength
     end
 
     describe 'vote' do
-      # it { should be_able_to :create, create(:vote, votable: other_question) }
-      # it { should_not be_able_to :create, create(:vote, votable: question) }
       it { should be_able_to :destroy, create(:vote, votable: other_question, user: user), user: user }
       it { should_not be_able_to :destroy, create(:vote, votable: other_question, user: other_user), user: user }
-      it 'vote_up'
-      it 'vote_down'
-      it 'vote_cancal'
+
+      describe 'vote_up' do
+        it { should be_able_to :vote_up, other_question, user: user }
+        it { should_not be_able_to :vote_up, question, user: user }
+      end
+
+      describe 'vote_down' do
+        it { should be_able_to :vote_down, other_question, user: user }
+        it { should_not be_able_to :vote_down, question, user: user }
+      end
+
+      describe 'vote_cancel' do
+        it 'by owner' do
+          other_question.vote_up(user)
+          should be_able_to :vote_cancel, other_question, user: user
+        end
+
+        it { should_not be_able_to :vote_cancal, create(:vote, votable: question, user: other_user), user: user }
+      end
     end
   end
 end
