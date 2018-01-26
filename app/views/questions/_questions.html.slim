@@ -7,9 +7,11 @@
         .badge id='vote-score-summ' #{question.sum_score}
         = render 'attachments/attached_files', attachmentable: question
         .float-right.btn-group.vote-btn
-          - if user_signed_in? && current_user.author_of?(question)
-            = link_to fa_icon("trash", text: "Delete Question"), question_path(question), class: 'btn btn-default', method: :delete, remote: true
-            = link_to fa_icon("edit", text: "Edit Question"), '', class: 'edit-question-link btn btn-default', data: { question_id: question.id }
+          - if can?(:update, question)
+            - if can?(:destroy, question)
+              = link_to fa_icon("trash", text: "Delete Question"), question_path(question), class: 'btn btn-default', method: :delete, remote: true
+            - if can?(:edit, question)
+              = link_to fa_icon("edit", text: "Edit Question"), '', class: 'edit-question-link btn btn-default', data: { question_id: question.id }
           - elsif user_signed_in?
             = link_to fa_icon("remove", text: "Vote_cancel"), question_vote_cancel_path(question), class: "btn btn-default vote-cancel #{vote_cancel_show?(question)}", method: :patch, remote: true
             = link_to fa_icon("thumbs-up", text: "Vote_up"), question_vote_up_path(question), class: "btn btn-default vote-up #{vote_btn_show?(question)}", method: :patch, remote: true

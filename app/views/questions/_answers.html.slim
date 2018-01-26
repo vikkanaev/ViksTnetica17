@@ -5,7 +5,7 @@
     b.float-right Answer score&nbsp;
     .badge id='vote-score-summ' #{answer.sum_score}
     = render 'attachments/attached_files', attachmentable: answer
-    - if user_signed_in? && current_user.author_of?(answer)
+    - if can?(:update, answer)
         .float-right.btn-group
           - if can?(:destroy, answer)
             = link_to fa_icon("trash", text: "Delete Answer"), answer_path(answer), method: :delete, class: 'btn btn-default', remote: true
