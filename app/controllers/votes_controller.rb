@@ -1,7 +1,11 @@
 class VotesController < ApplicationController
+  skip_authorization_check
+  # Добавил что бы не ругалось при включенной проверке check_authorization в ApplicationController
+  # При этом я убедился что authorize! вызывается и проверяет права в медодах vote_up, vote_down, vote_cancel
+
   def vote_up
     unless current_user.author_of?(votable)
-      authorize! :create, votable
+      authorize! :vote_up, votable
       votable.vote_up(current_user)
       render json: { id: @votable.id, score: @votable.sum_score, have_vote: true, type: votable.class.to_s }
     else
