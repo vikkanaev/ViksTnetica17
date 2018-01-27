@@ -28,7 +28,7 @@ class Ability
     can :update, [Question, Answer, Comment, Attachment], user_id: user.id
 
     can [:vote_up, :vote_down], [Answer, Question] do |votable|
-      votable.user_id != user.id
+      !user.author_of?(votable)
     end
 
     can :vote_cancel, [Answer, Question] do |votable|
@@ -36,13 +36,13 @@ class Ability
     end
 
     can :set_best_answer_ever, Answer do |answer|
-      answer.question.user_id == user.id
+      user.author_of?(answer.question)
     end
 
     can :destroy, [Question, Answer, Comment, Vote], user_id: user.id
 
     can :destroy, Attachment do |att|
-      att.attachmentable.user_id == user.id
+      user.author_of?(att.attachmentable)
     end
   end
 end
