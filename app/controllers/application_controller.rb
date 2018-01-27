@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
 
   rescue_from CanCan::AccessDenied do |exception|
     respond_to do |format|
-      format.json { render json: [exception.message], status: 500 }
+      format.json { render json: [exception.message], status: 403 }
       format.html { redirect_to root_url, alert: exception.message }
       format.js   { render 'partials/exception', locals: { item: exception.message } }
     end
