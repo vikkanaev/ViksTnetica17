@@ -30,6 +30,7 @@ gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
 gem 'cancancan', '~> 2.0'
+gem 'doorkeeper'
 
 group :development, :test do
   gem 'byebug', platform: :mri
@@ -55,6 +56,7 @@ group :test do
   gem 'launchy'
   gem 'selenium-webdriver'
   gem 'simplecov'
+  gem 'json_spec'
 end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]

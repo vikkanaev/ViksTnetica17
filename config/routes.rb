@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  use_doorkeeper
   get 'authorizations/new'
 
   devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks' }
@@ -23,5 +24,13 @@ Rails.application.routes.draw do
   resources :attachments, only: :destroy
   mount ActionCable.server => "/cable"
 
-  resources :authorizations, only: [:new, :create] 
+  resources :authorizations, only: [:new, :create]
+
+  namespace :api do
+    namespace :v1 do
+      resource :profiles do
+        get :me, on: :collection
+      end
+    end
+  end
 end
