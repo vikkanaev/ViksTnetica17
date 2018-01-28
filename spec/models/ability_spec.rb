@@ -12,6 +12,7 @@ describe Ability do # rubocop:disable Metrics/BlockLength
     it { should be_able_to :create, Authorization }
 
     it { should_not be_able_to :manage, :all }
+    it { should_not be_able_to :manage, :profile }
   end
 
   describe 'for admin' do
@@ -28,6 +29,7 @@ describe Ability do # rubocop:disable Metrics/BlockLength
 
     it { should_not be_able_to :manage, :all }
     it { should be_able_to :read, :all }
+    it { should be_able_to :manage, :profile }
 
     describe 'create' do
       it { should be_able_to :create, Question }
