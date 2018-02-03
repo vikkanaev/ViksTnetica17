@@ -27,7 +27,8 @@ class Ability
     guest_abilities
     can :create, [Question, Answer, Comment, Attachment]
     can :update, [Question, Answer, Comment, Attachment], user_id: user.id
-    can :manage, :profile
+    can :manage, :profile # я пробовал ставить read но без этого api/v1/profiles ломается. Я не понимаю почему (
+    can :profile, User, id: user.id
 
     can [:vote_up, :vote_down], [Answer, Question] do |votable|
       !user.author_of?(votable)
