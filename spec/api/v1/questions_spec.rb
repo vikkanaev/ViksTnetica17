@@ -87,6 +87,27 @@ describe 'Questions API' do
         end
       end
 
+      context 'attachments' do
+        it 'included in question object' do
+          expect(response.body).to have_json_size(1).at_path("0/attachments")
+        end
+
+        it 'has attachment url attr' do
+          expect(response.body).to be_json_eql(attachment.file.url.to_json).at_path("0/attachments/0/file/url")
+        end
+      end
+
+      context 'comments' do
+        it 'included in question object' do
+          expect(response.body).to have_json_size(1).at_path("0/comments")
+        end
+        %w(id message commentable_type user_id commentable_id created_at updated_at).each do |attr|
+          it "comment contains #{attr}" do
+            expect(response.body).to be_json_eql(comment.send(attr.to_sym).to_json).at_path("0/comments/0/#{attr}")
+          end
+        end
+      end # context 'comments'
+
     end # context 'authorized'
 
   end # describe 'GET /show'
