@@ -9,4 +9,7 @@ class Api::V1::QuestionsController < Api::V1::BaseController
     @question = Question.find(params[:id])
     respond_with @question
   end
+
+  def create
+  end
 end
