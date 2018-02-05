@@ -96,4 +96,37 @@ describe 'Answers API' do
 
   end # describe 'GET /show'
 
+  describe 'POST /create' do
+    context 'unauthorized' do
+      let(:question) { create(:question) }
+      let(:answer) { create(:answer, question: question) }
+      it 'returns 401 status if there is no access_token' do
+        post "/api/v1/questions/#{question.id}/answers", params: { action: :create, format: :json, answer: attributes_for(:answer) }
+        expect(response.status).to eq 401
+      end
+
+      it 'returns 401 status if access_token is invalid' do
+        post "/api/v1/questions/#{question.id}/answers", params: { action: :create, format: :json, answer: attributes_for(:answer), access_token: '1234' }
+        expect(response.status).to eq 401
+      end
+    end # context 'unauthorized'
+
+    context 'authorized' do
+      let(:question) { create(:question) }
+      let(:answer) { create(:answer, question: question) }
+      let(:access_token) { create(:access_token) }
+
+      before { post "/api/v1/questions/#{question.id}/answers", params: { action: :create, format: :json, answer: attributes_for(:answer), access_token: access_token.token }}
+
+      it 'returns 200 status code' do
+        expect(response).to be_success
+      end
+
+      it 'create question' do
+        expect{post "/api/v1/questions/#{question.id}/answers", params: { action: :create, format: :json,
+                 answer: attributes_for(:answer), access_token: access_token.token }}.to change(Answer, :count).by(1)
+      end
+    end # context 'authorized'
+  end # describe 'POST /create'
+
 end # describe 'Questions API'

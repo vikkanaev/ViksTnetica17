@@ -1,6 +1,6 @@
 class Api::V1::AnswersController < Api::V1::BaseController
   authorize_resource
-  before_action :find_question, only: :index
+  before_action :find_question, only: [:index, :create]
   def index
     @answers = @question.answers
     respond_with @answers
@@ -12,6 +12,7 @@ class Api::V1::AnswersController < Api::V1::BaseController
   end
 
   def create
+    respond_with(@answer = Answer.create(answer_params.merge(question: @question, user: current_resource_owner)))
   end
 
   private
