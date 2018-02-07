@@ -98,6 +98,6 @@ describe 'Answers API' do
 
   def do_request(options = {})
     question = create(:question)
-    get "/api/v1/questions/#{question.id}/answers", params: { action: :create, format: :json, answer: attributes_for(:answer) }
+    get "/api/v1/questions/#{question.id}/answers", params: { action: :create, format: :json, answer: attributes_for(:answer).merge(options) }
   end
 end # describe 'Questions API'
