@@ -30,9 +30,9 @@ class User < ApplicationRecord
     user
   end
 
-  def self.send_daily_digest
+  def self.send_daily_digest #TODO Перенести этот код в job daily_digest_job.rb
     find_each.each do |user|
-      DailyMailer.delay.digest(user)
+      DailyMailer.digest(user).deliver_later
     end
   end
 end
