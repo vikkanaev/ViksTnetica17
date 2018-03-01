@@ -12,6 +12,8 @@ class Answer < ApplicationRecord
   default_scope { order(best: :desc, created_at: :asc) }
   accepts_nested_attributes_for :attachments, reject_if: :all_blank
 
+  # after_create :calculate_rating
+
   def set_best
     Answer.transaction do
       question.answers.update_all(best: false)
@@ -29,5 +31,9 @@ class Answer < ApplicationRecord
     condition = question.answers.where(best: true)
     condition = condition.where.not(id: id) if persisted?
     errors.add(:base, 'There can be only one best answer!') if condition.present?
+  end
+
+  def calculate_rating
+    Reputation.delay.calculate(self)
   end
 end

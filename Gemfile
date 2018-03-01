@@ -5,8 +5,7 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-gem 'rails', '~> 5.0.6'
-#gem 'sqlite3'
+gem 'rails', '~> 5.1.4'
 gem 'puma', '~> 3.0'
 gem 'pg', '~> 0.21.0'
 gem 'sass-rails', '~> 5.0'
@@ -34,6 +33,12 @@ gem 'doorkeeper'
 gem 'active_model_serializers'
 gem 'oj'
 gem 'oj_mimic_json'
+
+# gem 'delayed_job_active_record'
+gem 'sidekiq'
+gem 'sinatra', '>= 1.3.0', require: nil
+gem 'whenever'
+# gem 'sidetiq'
 
 group :development, :test do
   gem 'byebug', platform: :mri
