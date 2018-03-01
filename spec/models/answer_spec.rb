@@ -25,7 +25,7 @@ RSpec.describe Answer, type: :model do
 
   describe 'Set_best method' do
     before do
-      question.answers.find(some_answer).set_best
+      question.answers.find(some_answer.id).set_best
     end
 
     it 'mark all answers as not best' do
@@ -34,6 +34,23 @@ RSpec.describe Answer, type: :model do
 
     it 'set this answer as best' do
       expect(question.answers.where(best: true).first).to eq some_answer
+    end
+  end
+
+  describe 'reputation' do
+    let(:user) { create(:user) }
+    let(:question) { create(:question) }
+    subject { build(:answer, user: user, question: question) }
+
+    it 'should calculate reputation after creating' do
+      expect(Reputation).to receive(:calculate).with(subject)
+      subject.save!
+    end
+
+    it 'should not calculate reputation after update' do
+      subject.save!
+      expect(Reputation).to_not receive(:calculate)
+      subject.update(body: '123')
     end
   end
 end
