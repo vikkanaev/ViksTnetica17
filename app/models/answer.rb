@@ -12,7 +12,7 @@ class Answer < ApplicationRecord
   default_scope { order(best: :desc, created_at: :asc) }
   accepts_nested_attributes_for :attachments, reject_if: :all_blank
 
-  # after_create :calculate_rating
+#  after_create :update_reputation
 
   def set_best
     Answer.transaction do
@@ -33,7 +33,7 @@ class Answer < ApplicationRecord
     errors.add(:base, 'There can be only one best answer!') if condition.present?
   end
 
-  def calculate_rating
-    Reputation.delay.calculate(self)
-  end
+#  def update_reputation
+#    CalculateReputationJob.perform_later(self)
+#  end
 end
