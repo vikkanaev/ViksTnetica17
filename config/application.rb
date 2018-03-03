@@ -10,6 +10,7 @@ module ViksTnetica17
   class Application < Rails::Application
     # Use the responders controller from the responders gem
     config.app_generators.scaffold_controller :responders_controller
+    config.action_mailer.default_url_options = { host: 'ViksTnetica17.com' }
 
     config.active_job.queue_adapter = :sidekiq
 
