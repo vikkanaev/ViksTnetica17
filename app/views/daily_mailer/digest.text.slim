@@ -1,3 +1,11 @@
-' Daily#digest
+' Daily Questions digest
 = "\r\n" * 2
-' #{@greeting + ", find me in app/views/daily_mailer/digest.text.slim"}
+//' #{@greeting + ", find me in app/views/daily_mailer/digest.text.slim"}
+' Hello, my friend! See new questions:
+= "\r\n" * 2
+- if @questions
+    - @questions.order(:created_at).each do |question|
+      = question.title
+      = ' '
+      = question.updated_at.to_formatted_s(:short)
+      = "\r\n" * 2
