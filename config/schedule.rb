@@ -14,7 +14,7 @@
 # end
 #
 every 1.days do
- runner "DailyDigestJob.perform_now"
+ runner "User.send_daily_digest.perform_now"
 end
 
 # Learn more: http://github.com/javan/whenever

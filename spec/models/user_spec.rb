@@ -99,11 +99,10 @@ RSpec.describe User, type: :model do
   end
 
   describe '.send_daily_digest' do
-    let(:users) { create_list(:user, 2) }
+    let!(:users) { create_list(:user, 3) }
 
     it 'should send daily digest to all users' do
-      users.each { |user| expect(DailyMailer).to receive(:digest).with(user).and_call_original }
-      User.send_daily_digest
+      expect { User.send_daily_digest }.to change { ActionMailer::Base.deliveries.count }.by(3)
     end
   end
 end
