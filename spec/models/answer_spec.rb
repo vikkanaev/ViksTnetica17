@@ -36,4 +36,8 @@ RSpec.describe Answer, type: :model do
       expect(question.answers.where(best: true).first).to eq some_answer
     end
   end
+
+  it 'send email then new answer created' do
+    expect { create(:answer, question: question, user: user_author, best: false) }.to change { ActionMailer::Base.deliveries.count }.by(1)
+  end
 end
