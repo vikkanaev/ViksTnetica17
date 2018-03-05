@@ -10,7 +10,7 @@ require 'rspec/rails'
 require 'cancan/matchers'
 require 'sidekiq/testing'
 
-Sidekiq::Testing.fake!
+Sidekiq::Testing.inline!
 
 Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 Dir[Rails.root.join("spec/models/concerns/**/*.rb")].each { |f| require f }

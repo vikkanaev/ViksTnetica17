@@ -34,6 +34,6 @@ class Answer < ApplicationRecord
   end
 
   def send_new_answer_email
-    QuestionMailer.new_answer(self).deliver #_later
+    QuestionMailer.new_answer(self).deliver_later
   end
 end

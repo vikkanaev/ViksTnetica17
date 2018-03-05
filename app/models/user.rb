@@ -30,7 +30,7 @@ class User < ApplicationRecord
     user
   end
 
-  def self.send_daily_digest #TODO Перенести этот код в job daily_digest_job.rb
+  def self.send_daily_digest
     find_each.each do |user|
       DailyMailer.digest(user).deliver_later
     end
