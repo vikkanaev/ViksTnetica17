@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Answer, type: :model do
   let!(:user_author) { create(:user) }
+  let(:some_user) { create(:user) }
   let!(:question) { create(:question, user: user_author) }
   let!(:best_answer) { create(:answer, question: question, user: user_author, best: true) }
   let!(:some_answer) { create(:answer, question: question, user: user_author, best: false) }
@@ -37,7 +38,11 @@ RSpec.describe Answer, type: :model do
     end
   end
 
-  it 'send email then new answer created' do
-    expect { create(:answer, question: question, user: user_author, best: false) }.to change { ActionMailer::Base.deliveries.count }.by(1)
+  it 'dont send email then author create new answer' do
+    expect { create(:answer, question: question, user: user_author, best: false) }.to_not change { ActionMailer::Base.deliveries.count }
+  end
+
+  it 'send email then other user create new answer' do
+    expect { create(:answer, question: question, user: some_user, best: false) }.to change { ActionMailer::Base.deliveries.count }.by(1)
   end
 end

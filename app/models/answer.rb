@@ -34,6 +34,10 @@ class Answer < ApplicationRecord
   end
 
   def send_new_answer_email
-    QuestionMailer.new_answer(self).deliver_later
+    question.subscriptions.map { |sub| sub.user }.each do |user|
+      if self.user != user
+        QuestionMailer.new_answer(self, user).deliver_later
+      end
+    end
   end
 end

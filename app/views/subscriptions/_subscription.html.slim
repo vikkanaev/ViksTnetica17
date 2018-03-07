@@ -1,0 +1,12 @@
+div.subscription
+  - if user_signed_in?
+    - if current_user.subscribed?(item)
+      b.col-sm-2.float-right = link_to fa_icon("edit", text: "Unsubscribe"),
+                                       subscription_path(item.find_subscription(current_user)),
+                                       method: :delete, remote: true,
+                                       class: 'unsubscribe-question btn btn-default'
+    - else
+      b.col-sm-2.float-right = link_to fa_icon("edit", text: "Subscribe"),
+                                       subscriptions_path(item),
+                                       method: :post, remote: true,
+                                       class: 'subscribe-question btn btn-default'

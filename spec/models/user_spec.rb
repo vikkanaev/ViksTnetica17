@@ -6,17 +6,29 @@ RSpec.describe User, type: :model do
   it { should have_many :authorizations }
   it { should have_many(:answers).dependent(:destroy) }
   it { should have_many(:authorizations).dependent(:destroy) }
+  it { should have_many(:subscriptions).dependent(:destroy) }
 
   describe 'public model methods' do
     let!(:user_author) { create(:user) }
     let!(:user_not_author) { create(:user) }
     let!(:question) { create(:question, user: user_author) }
 
+    before { user_author.subscriptions.create(question: question) }
+
     context 'Return True if user is author' do
       it { expect(user_author.author_of?(question)).to be(true) }
     end
+
     context 'Return False if user is not author' do
       it { expect(user_not_author.author_of?(question)).to be(false) }
+    end
+
+    context 'Return True if user subscribed to question' do
+      it { expect(user_author.subscribed?(question)).to be(true) }
+    end
+
+    context 'Return False if user is not subscribed to question' do
+      it { expect(user_not_author.subscribed?(question)).to be(false) }
     end
   end
 
