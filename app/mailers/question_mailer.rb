@@ -5,10 +5,10 @@ class QuestionMailer < ApplicationMailer
   #
   #   en.question_mailer.new_answer.subject
   #
-  def new_answer(answer)
+  def new_answer(answer, user)
     @answer = answer
     @question = answer.question
 
-    mail to: answer.question.user.email
+    mail to: user.email
   end
 end

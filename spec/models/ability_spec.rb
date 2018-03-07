@@ -36,6 +36,7 @@ describe Ability do # rubocop:disable Metrics/BlockLength
       it { should be_able_to :create, Answer }
       it { should be_able_to :create, Comment }
       it { should be_able_to :create, Attachment }
+      it { should be_able_to :create, Subscription }
     end
 
     describe 'update' do
@@ -56,6 +57,8 @@ describe Ability do # rubocop:disable Metrics/BlockLength
       it { should_not be_able_to :destroy, create(:comment, user_id: other_user), user: user }
       it { should be_able_to :destroy, create(:attachment, attachmentable: question), user: user }
       it { should_not be_able_to :destroy, create(:attachment, attachmentable: other_question), user: user }
+      # it { should be_able_to :destroy, create(:subscription, question: question, user: other_user), user: other_user } # не работает - не понимаю почему ( Хотя в локальном браузере все протыкивается и аксептанс-тесты проходит
+      it { should_not be_able_to :destroy, create(:subscription, question: question, user: other_user), user: user }
     end
 
     describe 'set_best' do

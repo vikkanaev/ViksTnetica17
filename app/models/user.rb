@@ -2,6 +2,7 @@ class User < ApplicationRecord
   has_many :questions, dependent: :destroy
   has_many :answers, dependent: :destroy
   has_many :authorizations, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable, omniauth_providers: [:facebook, :twitter]
@@ -34,5 +35,9 @@ class User < ApplicationRecord
     find_each.each do |user|
       DailyMailer.digest(user).deliver_later
     end
+  end
+
+  def subscribed?(question)
+    self.subscriptions.where(question_id: question).exists?
   end
 end
