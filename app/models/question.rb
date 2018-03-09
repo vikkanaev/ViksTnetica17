@@ -17,8 +17,8 @@ class Question < ApplicationRecord
   end
 
   private
+
   def subscribe_author
-    self.subscriptions.build(user: self.user)
-    self.save
+    subscriptions.create(user: user)
   end
 end

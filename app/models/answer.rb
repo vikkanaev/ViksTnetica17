@@ -22,7 +22,7 @@ class Answer < ApplicationRecord
   end
 
   def be_best?
-    self.best?
+    best?
   end
 
   private
@@ -34,10 +34,9 @@ class Answer < ApplicationRecord
   end
 
   def send_new_answer_email
-    question.subscriptions.map { |sub| sub.user }.each do |user|
-      if self.user != user
-        QuestionMailer.new_answer(self, user).deliver_later
-      end
+    question.subscriptions.map(&:user).each do |u|
+      next unless user != u
+      QuestionMailer.new_answer(self, user).deliver_later
     end
   end
 end
