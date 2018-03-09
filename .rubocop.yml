@@ -6,6 +6,7 @@ AllCops:
     - config/**
     - script/**
     - spec/**
+    - vendor/**
 
 Style/Documentation:
   Enabled: false
