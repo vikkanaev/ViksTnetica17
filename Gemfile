@@ -40,6 +40,9 @@ gem 'sidekiq'
 gem 'whenever'
 # gem 'sidetiq'
 
+gem 'mysql2'
+gem 'thinking-sphinx'
+
 group :development, :test do
   gem 'byebug', platform: :mri
   gem 'rubocop-rails'
