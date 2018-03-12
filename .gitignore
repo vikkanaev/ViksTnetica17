@@ -7,6 +7,9 @@
 # Ignore bundler config.
 /.bundle
 
+# Mac OS files
+.DS_Store
+
 # Ignore the default SQLite database.
 /db/*.sqlite3
 /db/*.sqlite3-journal
@@ -26,3 +29,7 @@ coverage
 
 # Ignore the Postgrsql Database
 config/database.yml
+
+# Sphinx files
+config/*.sphinx.conf
+db/sphinx
