@@ -2,4 +2,4 @@ p Search is search!
 
 - @search_results.each do |result|
   p
-  = link_to "#{result.class.to_s}_#{result.id}", result rescue result.to_s
+  = link_to result.class.to_s, result rescue result.class.to_s
