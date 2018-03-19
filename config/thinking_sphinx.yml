@@ -1,0 +1,8 @@
+development:
+  min_prefix_len: 3
+  morphology: stem_ru
+  dict: keywords
+
+test:
+  min_prefix_len: 3
+  morphology: stem_ru

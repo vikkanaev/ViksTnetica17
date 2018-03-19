@@ -3,8 +3,6 @@ require 'sidekiq/web'
 Rails.application.routes.draw do
   use_doorkeeper
 
-
-
   authenticate :user, lambda { |u| u.admin? } do
     mount Sidekiq::Web => '/sidekiq'
   end
@@ -37,6 +35,7 @@ Rails.application.routes.draw do
   mount ActionCable.server => "/cable"
 
   resources :authorizations, only: [:new, :create]
+  post 'search', to: 'searches#show'
 
   namespace :api do
     namespace :v1 do
