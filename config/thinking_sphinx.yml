@@ -6,3 +6,4 @@ development:
 test:
   min_prefix_len: 3
   morphology: stem_ru
+  mysql41: 9307
