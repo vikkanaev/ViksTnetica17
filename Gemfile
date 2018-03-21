@@ -45,6 +45,7 @@ gem 'thinking-sphinx'
 
 gem 'dotenv'
 gem 'dotenv-deployment', require: 'dotenv/deployment'
+gem 'therubyracer'
 
 group :development, :test do
   gem 'byebug', platform: :mri
