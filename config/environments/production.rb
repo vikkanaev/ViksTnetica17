@@ -1,4 +1,5 @@
 Rails.application.configure do
+  config.action_cable.allowed_request_origins = ["http://vikstnetica17.tk/"]
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.
