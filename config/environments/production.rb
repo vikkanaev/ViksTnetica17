@@ -1,5 +1,5 @@
 Rails.application.configure do
-  config.action_cable.allowed_request_origins = ["http://vikstnetica17.tk/"]
+  config.action_cable.allowed_request_origins = ["https://vikstnetica17.tk/"]
   config.action_cable.url = 'wss://vikstnetica17.tk/cable'
   # Settings specified here will take precedence over those in config/application.rb.
 
