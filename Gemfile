@@ -36,7 +36,7 @@ gem 'oj_mimic_json'
 
 # gem 'delayed_job_active_record'
 gem 'sidekiq'
-# gem 'redis'
+gem 'redis'
 gem 'whenever'
 
 gem 'mysql2'
