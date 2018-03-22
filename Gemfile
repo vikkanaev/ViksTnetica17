@@ -33,7 +33,9 @@ gem 'doorkeeper'
 gem 'active_model_serializers'
 gem 'oj'
 gem 'oj_mimic_json'
-gem 'recurrence'
+# gem 'recurrence' # думал что поможет от
+# Message from application: undefined method `recurrence' for DailyGigestWorker:Class (NoMethodError)
+# Не помогло
 
 # gem 'delayed_job_active_record'
 gem 'sidekiq'

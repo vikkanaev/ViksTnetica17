@@ -17,4 +17,8 @@ every 1.days do
  runner "User.send_daily_digest.perform_now"
 end
 
+every 3.minutes do
+ rake "ts:index"
+end
+
 # Learn more: http://github.com/javan/whenever
