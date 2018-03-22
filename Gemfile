@@ -33,6 +33,7 @@ gem 'doorkeeper'
 gem 'active_model_serializers'
 gem 'oj'
 gem 'oj_mimic_json'
+gem 'recurrence'
 
 # gem 'delayed_job_active_record'
 gem 'sidekiq'
@@ -56,7 +57,6 @@ group :development, :test do
   gem 'rails-controller-testing'
   gem 'pry-rails'
   gem 'database_cleaner'
-  gem 'capybara-webkit'
 end
 
 group :development do
@@ -69,12 +69,14 @@ group :development do
   gem 'capistrano-bundler', require: false
   gem 'capistrano-rails', require: false
   gem 'capistrano-rvm', require: false
+  gem 'capistrano-sidekiq', require: false
 end
 
 group :test do
   gem 'shoulda-matchers'
   gem 'capybara'
   gem 'launchy'
+  gem 'capybara-webkit'
   gem 'selenium-webdriver'
   gem 'simplecov'
   gem 'json_spec'
