@@ -14,7 +14,7 @@
 # end
 #
 every 1.days do
- runner "User.send_daily_digest.perform_now"
+ runner "User.send_daily_digest"
 end
 
 every 3.minutes do
