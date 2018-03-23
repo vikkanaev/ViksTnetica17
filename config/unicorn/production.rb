@@ -1,5 +1,5 @@
 # paths
-app_path = "/home/deploy/ViksTnetica17/current"
+app_path = "/home/deploy/ViksTnetica17"
 working_directory "#{app_path}/current"
 pid               "#{app_path}/current/tmp/pids/unicorn.pid"
 
