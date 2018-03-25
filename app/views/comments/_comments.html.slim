@@ -3,6 +3,7 @@
       - if commentable.comments.present?
         b Comments:
         - commentable.comments.each do |c|
+          - cache c do
             - if c.persisted?
               p id="comment-#{c.id}" #{c.message}
               hr
