@@ -13,6 +13,7 @@ module ViksTnetica17
     config.action_mailer.default_url_options = { host: 'ViksTnetica17.com' }
 
     config.active_job.queue_adapter = :sidekiq
+    config.cache_store = :redis_store, 'redis://localhost:6379', { expires_in: 90.minutes }
 
     config.generators do |g|
       g.test_framework :rspec,

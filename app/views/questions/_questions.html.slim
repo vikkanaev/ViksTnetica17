@@ -1,30 +1,31 @@
 .questions-errors
 - if @questions
+  - cache personal_collection_cache_key_for(:question, current_user) do
     - @questions.order(:created_at).each do |question|
-      .well id="question-#{question.id}"
-        .col-sm-10 = link_to question.title, question
-        b.float-right Question score&nbsp;
-        .badge id='vote-score-summ' #{question.sum_score}
-        = render 'attachments/attached_files', attachmentable: question
-        .float-right.btn-group.vote-btn
-          - if can?(:update, question)
-            - if can?(:destroy, question)
-              = link_to fa_icon("trash", text: "Delete Question"), question_path(question), class: 'btn btn-default', method: :delete, remote: true
-            - if can?(:edit, question)
-              = link_to fa_icon("edit", text: "Edit Question"), '', class: 'edit-question-link btn btn-default', data: { question_id: question.id }
-          - elsif user_signed_in?
-            = link_to fa_icon("remove", text: "Vote_cancel"), question_vote_cancel_path(question), class: "btn btn-default vote-cancel #{vote_cancel_show?(question)}", method: :patch, remote: true
-            = link_to fa_icon("thumbs-up", text: "Vote_up"), question_vote_up_path(question), class: "btn btn-default vote-up #{vote_btn_show?(question)}", method: :patch, remote: true
-            = link_to fa_icon("thumbs-down", text: "Vote_down"), question_vote_down_path(question), class: "btn btn-default vote-down #{vote_btn_show?(question)}", method: :patch, remote: true
+        .well id="question-#{question.id}"
+          .col-sm-10 = link_to question.title, question
+          b.float-right Question score&nbsp;
+          .badge id='vote-score-summ' #{question.sum_score}
+          = render 'attachments/attached_files', attachmentable: question
+          .float-right.btn-group.vote-btn
+            - if can?(:update, question)
+              - if can?(:destroy, question)
+                = link_to fa_icon("trash", text: "Delete Question"), question_path(question), class: 'btn btn-default', method: :delete, remote: true
+              - if can?(:edit, question)
+                = link_to fa_icon("edit", text: "Edit Question"), '', class: 'edit-question-link btn btn-default', data: { question_id: question.id }
+            - elsif user_signed_in?
+              = link_to fa_icon("remove", text: "Vote_cancel"), question_vote_cancel_path(question), class: "btn btn-default vote-cancel #{vote_cancel_show?(question)}", method: :patch, remote: true
+              = link_to fa_icon("thumbs-up", text: "Vote_up"), question_vote_up_path(question), class: "btn btn-default vote-up #{vote_btn_show?(question)}", method: :patch, remote: true
+              = link_to fa_icon("thumbs-down", text: "Vote_down"), question_vote_down_path(question), class: "btn btn-default vote-down #{vote_btn_show?(question)}", method: :patch, remote: true
 
 
-        .item
-          = form_for question, remote: true, html: { id: "edit-question-#{question.id}", class: 'form-horizontal edit_question' } do |ff|
-            .form-group
-              = ff.label :title, class: 'col-sm-2'
-              = ff.text_field :title, class: 'col-sm-2'
-            .form-group
-              = ff.label :body, "Question", class: 'col-sm-2'
-              = ff.text_area :body, class: 'col-sm-2'
-            .form-group
-              = ff.submit 'Save Question', class: 'btn btn-default'
+          .item
+            = form_for question, remote: true, html: { id: "edit-question-#{question.id}", class: 'form-horizontal edit_question' } do |ff|
+              .form-group
+                = ff.label :title, class: 'col-sm-2'
+                = ff.text_field :title, class: 'col-sm-2'
+              .form-group
+                = ff.label :body, "Question", class: 'col-sm-2'
+                = ff.text_area :body, class: 'col-sm-2'
+              .form-group
+                = ff.submit 'Save Question', class: 'btn btn-default'

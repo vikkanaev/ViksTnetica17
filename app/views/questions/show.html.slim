@@ -1,25 +1,26 @@
-.question.well
-  .row
-    h1.col-sm-10 #{@question.title}
-    = render 'subscriptions/subscription', item: @question
-  .row
-    p.col-sm-12 #{@question.body}
-    = render 'attachments/attached_files', attachmentable: @question
-    = render 'comments/comments', commentable: @question
-    = render 'comments/add_comment_form', commentable: @question
-    .answer-errors
-      .answers
-        = render 'answers'
+- cache [@question, current_user] do
+  .question.well
+    .row
+      h1.col-sm-10 #{@question.title}
+      = render 'subscriptions/subscription', item: @question
+    .row
+      p.col-sm-12 #{@question.body}
+      = render 'attachments/attached_files', attachmentable: @question
+      = render 'comments/comments', commentable: @question
+      = render 'comments/add_comment_form', commentable: @question
+      .answer-errors
+        .answers
+          = render 'answers'
 
-    - if can?(:create, Answer)
-      h3 Pls make an answer:
-      = form_for [@question, @answer], remote: :true do |f|
-        = f.label :body
-        = f.text_area :body
-        = f.fields_for :attachments, @answer.attachments.build, remote: true do |attach|
-          .links
-            = link_to_add_association 'add file', f, :attachments, partial: 'attachments/attache_nested_elements'
-            = f.submit 'Create Answer', class: 'btn btn-default'
-    - else
-      p You need to sign in or sign up before commenting
+      - if can?(:create, Answer)
+        h3 Pls make an answer:
+        = form_for [@question, @answer], remote: :true do |f|
+          = f.label :body
+          = f.text_area :body
+          = f.fields_for :attachments, @answer.attachments.build, remote: true do |attach|
+            .links
+              = link_to_add_association 'add file', f, :attachments, partial: 'attachments/attache_nested_elements'
+              = f.submit 'Create Answer', class: 'btn btn-default'
+      - else
+        p You need to sign in or sign up before commenting
     = link_to "Back to All questions", questions_path

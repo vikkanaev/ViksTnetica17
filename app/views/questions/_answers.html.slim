@@ -1,30 +1,31 @@
-- @question.answers.each do |answer|
- - if answer.persisted?
-  .well id="answer-#{answer.id}"
-    p.col-sm-10 = answer.body
-    b.float-right Answer score&nbsp;
-    .badge id='vote-score-summ' #{answer.sum_score}
-    = render 'attachments/attached_files', attachmentable: answer
-    - if can?(:update, answer)
-        .float-right.btn-group
-          - if can?(:destroy, answer)
-            = link_to fa_icon("trash", text: "Delete Answer"), answer_path(answer), method: :delete, class: 'btn btn-default', remote: true
-          - if can?(:edit, answer)
-            = link_to fa_icon("edit", text: "Edit Answer"), '', class: 'edit-answer-link btn btn-default', data: { answer_id: answer.id }
-        - if answer.best?
-          = link_to fa_icon("star", text: "This is best answer ever!"), '', class: 'btn btn-default disabled'
-        - elsif can?(:set_best_answer_ever, answer)
-          = link_to fa_icon("star", text: "Chois as Best"), set_best_answer_path(answer), method: :patch, class: 'btn btn-default', remote: true
-        .item
-            = form_for answer, remote: true, html: { id: "edit-answer-#{answer.id}", class: 'form-horizontal edit_answer' } do |ff|
-              .form-group
-                = ff.label :body, "Answer", class: 'col-sm-2'
-                = ff.text_area :body, class: 'col-sm-2'
-              .form-group
-                = ff.submit 'Save', class: 'btn btn-default'
-    - elsif user_signed_in?
-      = link_to fa_icon("remove", text: "Vote_cancel"), answer_vote_cancel_path(answer), class: "btn btn-default vote-cancel #{vote_cancel_show?(answer)}", method: :patch, remote: true
-      = link_to fa_icon("thumbs-up", text: "Vote_up"), answer_vote_up_path(answer), class: "btn btn-default vote-up #{vote_btn_show?(answer)}", method: :patch, remote: true
-      = link_to fa_icon("thumbs-down", text: "Vote_down"), answer_vote_down_path(answer), class: "btn btn-default vote-down #{vote_btn_show?(answer)}", method: :patch, remote: true
-    = render 'comments/comments', commentable: answer
-    = render 'comments/add_comment_form', commentable: answer
+- cache personal_collection_cache_key_for(:answer, current_user) do
+ - @question.answers.each do |answer|
+  - if answer.persisted?
+    .well id="answer-#{answer.id}"
+      p.col-sm-10 = answer.body
+      b.float-right Answer score&nbsp;
+      .badge id='vote-score-summ' #{answer.sum_score}
+      = render 'attachments/attached_files', attachmentable: answer
+      - if can?(:update, answer)
+          .float-right.btn-group
+            - if can?(:destroy, answer)
+              = link_to fa_icon("trash", text: "Delete Answer"), answer_path(answer), method: :delete, class: 'btn btn-default', remote: true
+            - if can?(:edit, answer)
+              = link_to fa_icon("edit", text: "Edit Answer"), '', class: 'edit-answer-link btn btn-default', data: { answer_id: answer.id }
+          - if answer.best?
+            = link_to fa_icon("star", text: "This is best answer ever!"), '', class: 'btn btn-default disabled'
+          - elsif can?(:set_best_answer_ever, answer)
+            = link_to fa_icon("star", text: "Chois as Best"), set_best_answer_path(answer), method: :patch, class: 'btn btn-default', remote: true
+          .item
+              = form_for answer, remote: true, html: { id: "edit-answer-#{answer.id}", class: 'form-horizontal edit_answer' } do |ff|
+                .form-group
+                  = ff.label :body, "Answer", class: 'col-sm-2'
+                  = ff.text_area :body, class: 'col-sm-2'
+                .form-group
+                  = ff.submit 'Save', class: 'btn btn-default'
+      - elsif user_signed_in?
+        = link_to fa_icon("remove", text: "Vote_cancel"), answer_vote_cancel_path(answer), class: "btn btn-default vote-cancel #{vote_cancel_show?(answer)}", method: :patch, remote: true
+        = link_to fa_icon("thumbs-up", text: "Vote_up"), answer_vote_up_path(answer), class: "btn btn-default vote-up #{vote_btn_show?(answer)}", method: :patch, remote: true
+        = link_to fa_icon("thumbs-down", text: "Vote_down"), answer_vote_down_path(answer), class: "btn btn-default vote-down #{vote_btn_show?(answer)}", method: :patch, remote: true
+      = render 'comments/comments', commentable: answer
+      = render 'comments/add_comment_form', commentable: answer
