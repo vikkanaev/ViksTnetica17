@@ -76,7 +76,7 @@ group :test do
   gem 'shoulda-matchers'
   gem 'capybara'
   gem 'launchy'
-  # gem 'capybara-webkit'
+  gem 'capybara-webkit'
   gem 'selenium-webdriver'
   gem 'simplecov'
   gem 'json_spec'

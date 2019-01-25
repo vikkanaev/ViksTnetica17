@@ -1,7 +1,9 @@
-ThinkingSphinx::Index.define :answer, with: :active_record do
-  # fileds
-  indexes body
+# NOTE: вернуть поиск
 
-  # attributes
-  has user_id, created_at, updated_at
-end
+# ThinkingSphinx::Index.define :answer, with: :active_record do
+#   # fileds
+#   indexes body
+#
+#   # attributes
+#   has user_id, created_at, updated_at
+# end
